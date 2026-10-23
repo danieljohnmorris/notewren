@@ -137,6 +137,21 @@ npm --workspace apps/desktop run tauri:build
 
 The native app opens with `Editor`, `Branches` and `History` views. `New branch` starts an explicit branch from the current editor, and inspecting a branch does not switch the writing branch until `Switch to this branch` is chosen. The note-row context menu contains note actions without leaving the editor. The macOS shell uses the webview for its controls and a native overlay title bar with system traffic lights, while the application surface uses compact system typography and neutral macOS-style tones.
 
+The macOS sidebar heading sits below the traffic lights. The packaged icon uses an Icon Composer asset with glass, shadow and specular effects disabled, preserving the flat wren artwork on macOS Tahoe. Its source is in `apps/desktop/src-tauri/icons/NoteWren.icon`; compiled assets are checked in under `icons/macos`, so normal builds do not require Icon Composer.
+
+After changing the icon source, regenerate the compiled assets with Xcode 26 or later, then rebuild the app:
+
+```sh
+xcrun actool apps/desktop/src-tauri/icons/NoteWren.icon \
+  --compile apps/desktop/src-tauri/icons/macos \
+  --platform macosx --minimum-deployment-target 11.0 \
+  --app-icon NoteWren \
+  --output-partial-info-plist /tmp/notewren-icon-partial.plist
+npm --workspace apps/desktop run tauri:build
+```
+
+If bundling fails with `xattr: option -r not recognised`, a non-system `xattr` is taking precedence. Build with `PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH" npm --workspace apps/desktop run tauri:build` to use Apple's version.
+
 For an isolated native smoke run:
 
 ```sh

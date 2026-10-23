@@ -38,7 +38,11 @@
     "shortDescription": "Local-first Markdown notes with branches",
     "macOS": {
       "minimumSystemVersion": "11.0",
-      "signingIdentity": "-"
+      "signingIdentity": "-",
+      "files": {
+        "Resources/Assets.car": "icons/macos/Assets.car",
+        "Resources/NoteWren.icns": "icons/macos/NoteWren.icns"
+      }
     }
   }
 }

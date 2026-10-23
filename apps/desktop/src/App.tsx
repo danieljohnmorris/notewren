@@ -324,6 +324,7 @@ export function App() {
 
   return <div className="desktop-shell">
     <aside className="library-pane" aria-label="Local notes library">
+      <div className="library-window-chrome" data-tauri-drag-region aria-hidden="true" />
       <header className="library-heading" data-tauri-drag-region><h1 data-tauri-drag-region>All notes</h1><button className="icon-button" disabled={!ready || busy || syncing} onClick={() => act(newNote)} title="New note (⌘N)" aria-label="New note"><Plus size={18} /></button></header>
       <label className="search-field"><Search size={16} aria-hidden="true" /><input ref={searchRef} value={query} onChange={(event) => setQuery(event.target.value)} placeholder="Search your notes" aria-label="Search notes" type="search" /></label>
       <nav className="notes-list" aria-label="Notes">

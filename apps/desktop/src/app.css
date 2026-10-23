@@ -20,10 +20,11 @@ h3 { font-size: 16px; }
 [hidden] { display: none !important; }
 .desktop-shell { height: 100%; display: grid; grid-template-columns: 260px minmax(0, 1fr); overflow: hidden; }
 .library-pane { min-height: 0; display: flex; flex-direction: column; border-right: 1px solid var(--border); background: var(--bg); }
+.library-window-chrome { display: none; }
 .library-heading { display: flex; align-items: center; justify-content: space-between; min-height: 52px; padding: 10px 16px; }
 .library-heading h1 { margin: 0; font-size: 14px; font-weight: 600; }
-:root[data-platform='mac'] .library-heading { padding-left: 88px; }
-:root[data-platform='mac'] .library-heading,
+:root[data-platform='mac'] .library-window-chrome { display: block; flex: 0 0 40px; }
+:root[data-platform='mac'] .library-heading { min-height: 44px; padding-block: 4px 12px; }
 :root[data-platform='mac'] .editor-toolbar { min-height: 56px; }
 .icon-button { width: 28px; height: 28px; padding: 0; }
 .library-heading button { border-color: transparent; background: transparent; color: var(--muted); }
