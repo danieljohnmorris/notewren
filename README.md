@@ -68,9 +68,15 @@ Screenshots of the interactive web reference. Window controls and device frames 
 
 Proposed architecture. Local storage and the sync service are not implemented yet.
 
-![Planned NoteWren sync: desktop and mobile apps each keep local notes for offline writing and exchange document changes with an optional self-hosted server that preserves revisions.](docs/images/planned-sync.svg)
+![Planned NoteWren sync: desktop, laptop, tablet and phone grouped as your devices, each with an offline library. CLI and MCP access the same local library. An optional self-hosted server exchanges changes and preserves revisions.](docs/images/planned-sync.svg)
 
 The sync protocol, authentication and server implementation remain to be chosen.
+
+### Planned agent access
+
+The CLI and Model Context Protocol (MCP) interface will share the app's Rust core and local library. Agents will be able to search, read, create and edit notes without requiring the sync server.
+
+The intended packaging is one CLI/MCP executable included with the desktop app and also available as a standalone install for headless machines. MCP registration with an agent client will be opt-in. NoteWren will provide tools to an existing agent, rather than bundle a model or agent runtime. These interfaces are not implemented yet.
 
 ## Preview
 

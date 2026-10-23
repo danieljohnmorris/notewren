@@ -22,6 +22,8 @@ An open-source Markdown notes app with offline access and a self-hosted document
 
 The current deliverable is a reusable design system, genuine SVG assets and macOS, Omarchy and mobile mockups. Mockup notes are illustrative. Native storage, authentication and synchronisation are not implemented here. Future sync must preserve both versions of conflicting edits. Never share a live SQLite database file between devices.
 
+Planned agent access uses a CLI and MCP interface over the same Rust core and local library as the graphical app. It must support offline note search, reading, creation and editing without a sync server. The intended executable ships with the desktop install and separately for headless use; MCP registration is opt-in. Neither interface is implemented yet.
+
 ## Brand Commitments
 
 Use NoteWren as the working product name and the supplied geometric wren SVG geometry. The upright exclamation-mark tail, wing cutout, bold sans-serif wordmark, cream-and-black icon and terracotta accent are approved. Filled and negative-space symbols belong to the same family. Green and blue are secondary identity colours. Transparent cutouts must work on every background.
