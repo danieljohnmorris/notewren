@@ -797,6 +797,7 @@
 
 .nwm-editor .nwm-toolbar-spacer {
   display: flex;
+  min-width: 0;
   align-items: center;
   gap: 0.75rem;
 }
@@ -813,12 +814,6 @@
   padding: 2.75rem 3rem 4rem;
 }
 
-.nwm-word-count {
-  font-size: 0.75rem;
-  font-weight: 500;
-  font-variant-numeric: tabular-nums;
-  color: var(--muted);
-}
 
 /* Focus mode: the editor takes the whole window */
 
@@ -1808,4 +1803,42 @@
   min-height: 12rem;
   font-size: 1rem;
   line-height: 1.65;
+}
+
+/* Branch navigation stays visible while the writing page changes. */
+.nwm-branch-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+  max-width: 13rem;
+  min-height: 32px;
+  padding: 0.25rem 0.5rem;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--accent);
+  font-size: var(--text-xs);
+}
+.nwm-branch-toggle svg { flex: none; }
+.nwm-branch-toggle span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nwm-branch-toggle:hover,
+.nwm-branch-toggle[aria-expanded='true'] { background: var(--accent-soft); }
+.nwm-draft-status {
+  margin: var(--space-5) 0 0;
+  color: var(--muted);
+  font: 500 var(--text-xs)/1.5 var(--font-ui);
+}
+.nwm-mobile .nwm-branch-toggle { min-height: 44px; max-width: 8rem; }
+.nwm-mobile .nwm-mscroll--branches,
+.nwm-mobile[data-device='android'] .nwm-mscroll--branches { padding: 0; }
+.nwm-mobile .nwm-mtopbar-end { min-width: 0; }
+
+.nwm-omarchy .nwm-title-input,
+.nwm-omarchy .cm-md-heading {
+  color: var(--fg-heading);
 }

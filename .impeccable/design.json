@@ -3,6 +3,17 @@
   "generatedAt": "2026-10-23T11:15:09Z",
   "title": "Design System: NoteWren",
   "extensions": {
+    "branchGraph": {
+      "component": "src/components/BranchGraph.tsx",
+      "example": "BranchGraphExample",
+      "scope": "Individual notes in the in-memory preview; notebook branching is planned.",
+      "topology": "Rooted ancestry tree. One parent per branch. No merging.",
+      "states": ["Writing", "Inspecting", "Archived", "Agent example"],
+      "comparison": "Immutable fork-point title and body by default; another branch's current content may be selected.",
+      "placement": "Replaces the writing page inside the editor's scroll region on desktop, phone and fold panes.",
+      "theme": "Inherits semantic roles and the selected Omarchy palette.",
+      "deletion": "Confirmation required. The original, current writing branch and any branch with children are protected."
+    },
     "colorMeta": {
       "cream": {
         "role": "neutral",
@@ -930,7 +941,7 @@
       },
       {
         "name": "The OS Theme Rule",
-        "body": "On Omarchy, the app follows the desktop theme. A picker above the Omarchy mockup (\"OS theme\") offers NoteWren's own palette plus seven Omarchy palettes copied by hand from their `themes/<name>/colors.toml` files: Tokyo Night, Catppuccin, Gruvbox, Nord, Osaka Jade, Matte Black and Flexoki Light. `omarchyThemeStyle` in `src/components/omarchyThemes.ts` maps a palette onto the same role variables and the `--nwm-frame-*` variables as an inline style on `.nwm-omarchy`, so the waybar, active window border, list, editor and controls follow it with no component changes. Omarchy's `muted` is its divider colour and becomes `--border`; the palette accent becomes both `--accent` and `--focus`. The header light/dark toggle swaps roles for the whole page; the OS theme overrides them inside the Omarchy frame only, and \"NoteWren\" removes the override. This is a session-only preview of how a native Omarchy build would inherit the OS theme. That build would read the active theme's `colors.toml`; the mockup only simulates it with the copied list.",
+        "body": "On Omarchy, the app follows the desktop theme. The preview's OS theme picker offers Tokyo Night (the default) and Flexoki Light, copied from Omarchy's themes/<name>/colors.toml files. omarchyThemeStyle maps each palette onto the semantic roles and --nwm-frame-* variables, recolouring the frame, editor and branch graph together. The page's light/dark toggle does not change the selected OS palette. This is a session-only simulation; a native build would read the active desktop theme.",
         "section": "colors"
       },
       {

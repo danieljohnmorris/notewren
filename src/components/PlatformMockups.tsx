@@ -15,6 +15,7 @@ import {
   CloudOff,
   Compass,
   FileText,
+  GitBranch,
   Maximize2,
   Minimize2,
   Notebook,
@@ -29,6 +30,7 @@ import { ArrowLeft, BatteryFull, ChevronRight, Files, Minus, SignalHigh, Square,
 import { Logo } from './Logo';
 import { MarkdownEditor, type MarkdownEditorHandle } from './MarkdownEditor';
 import { OMARCHY_THEMES, omarchyThemeStyle } from './omarchyThemes';
+import { BranchGraph, type NoteBranch } from './BranchGraph';
 import './mockups.css';
 
 export type Platform = 'mac' | 'windows' | 'omarchy' | 'mobile';
@@ -46,6 +48,8 @@ interface Note {
   updated: string;
   /** True once the note has been changed or created in this preview. */
   edited: boolean;
+  branches?: NoteBranch[];
+  activeBranchId?: string;
 }
 
 const NOTEBOOKS: ReadonlyArray<{ id: NotebookId; name: string }> = [
@@ -195,14 +199,53 @@ interface NotesState {
   toggleFavourite: (id: string) => void;
   createNote: () => void;
   clearTitleFocus: () => void;
+  graphOpen: boolean;
+  setGraphOpen: (open: boolean) => void;
+  switchBranch: (id: string) => void;
+  createBranch: (parentId: string, name: string) => void;
+  renameBranch: (id: string, name: string) => void;
+  archiveBranch: (id: string) => void;
+  deleteBranch: (id: string) => void;
+}
+
+/** Sample alternatives share a captured starting point, never a mutable parent. */
+function initialBranches(note: Note): NoteBranch[] {
+  const original: NoteBranch = {
+    id: 'original', name: 'Original', parentId: null,
+    title: note.title, body: note.body, baseTitle: note.title, baseBody: note.body,
+    author: 'You', archived: false,
+  };
+  if (note.id !== 'room-to-think') return [original];
+  const shorter: NoteBranch = {
+    ...original, id: 'shorter', name: 'A shorter opening', parentId: original.id,
+    body: `Leave a page open. See what turns up.
+
+## Ground rules
+- Write first, tidy later.
+- One idea per paragraph.
+- Give the useful thoughts room to grow.
+
+Most of these notes will stay rough, and that is fine.`,
+  };
+  return [
+    original, shorter,
+    { ...shorter, id: 'letter', name: 'As a letter', parentId: shorter.id,
+      baseTitle: shorter.title, baseBody: shorter.body,
+      body: `Dear friend,\n\nI have been leaving a page open each morning. Nothing ambitious. A line about the weather, or something I want to remember.\n\nIt helps to have somewhere a thought can wait.\n\nPerhaps you would like to try it too.` },
+    { ...original, id: 'agent', name: 'A different structure', parentId: original.id, author: 'Agent',
+      body: `## A place to begin\n\nSome mornings I leave a page open and see what turns up.\n\n## A little practice\n\nWrite first, tidy later. Keep one idea in each paragraph. Return next week and give the thoughts that stayed a heading.\n\n## Permission to stop\n\nMost notes will stay rough. That is fine. The page has already done its job.` },
+  ];
 }
 
 function useNotesState(): NotesState {
-  const [notes, setNotes] = useState<Note[]>(() => SAMPLE_NOTES.map((n) => ({ ...n })));
+  const [notes, setNotes] = useState<Note[]>(() => SAMPLE_NOTES.map((n) => ({
+    ...n, branches: initialBranches(n), activeBranchId: 'original',
+  })));
   const [selectedId, setSelectedId] = useState<string>(SAMPLE_NOTES[0].id);
   const [view, setView] = useState<View>({ kind: 'all' });
   const [query, setQuery] = useState('');
   const [focusTitleId, setFocusTitleId] = useState<string | null>(null);
+  const [graphOpen, setGraphOpen] = useState(false);
   const draftCounter = useRef(0);
 
   const visible = useMemo(() => {
@@ -226,7 +269,10 @@ function useNotesState(): NotesState {
 
   const updateNote = useCallback((id: string, patch: Partial<Pick<Note, 'title' | 'body'>>) => {
     setNotes((prev) =>
-      prev.map((n) => (n.id === id ? { ...n, ...patch, edited: true, updated: 'Just now' } : n)),
+      prev.map((n) => (n.id === id ? {
+        ...n, ...patch, edited: true, updated: 'Just now',
+        branches: n.branches?.map(b => b.id === n.activeBranchId ? { ...b, ...patch } : b),
+      } : n)),
     );
   }, []);
 
@@ -239,10 +285,13 @@ function useNotesState(): NotesState {
     const id = `draft-${draftCounter.current}`;
     const notebook: NotebookId = view.kind === 'notebook' ? view.id : 'personal';
     setNotes((prev) => [
-      { id, title: '', body: '', notebook, favourite: false, updated: 'Just now', edited: true },
+      { id, title: '', body: '', notebook, favourite: false, updated: 'Just now', edited: true,
+        activeBranchId: 'original',
+        branches: initialBranches({ id, title: '', body: '', notebook, favourite: false, updated: 'Just now', edited: true }) },
       ...prev,
     ]);
     setSelectedId(id);
+    setGraphOpen(false);
     // A blank draft would be hidden by a favourites filter or a search, so show it.
     if (view.kind === 'favourites') setView({ kind: 'all' });
     setQuery('');
@@ -250,6 +299,49 @@ function useNotesState(): NotesState {
   }, [view]);
 
   const clearTitleFocus = useCallback(() => setFocusTitleId(null), []);
+
+  const switchBranch = (id: string) => {
+    setNotes(prev => prev.map(n => {
+      if (n.id !== selectedId) return n;
+      const branch = n.branches?.find(b => b.id === id && !b.archived);
+      return branch ? { ...n, title: branch.title, body: branch.body, activeBranchId: id } : n;
+    }));
+    setGraphOpen(false);
+  };
+  const createBranch = (parentId: string, name: string) => {
+    const id = crypto.randomUUID();
+    setNotes(prev => prev.map(n => {
+      if (n.id !== selectedId) return n;
+      const parent = n.branches?.find(b => b.id === parentId);
+      if (!parent || !name.trim() || name.trim().length > 48 ||
+        n.branches?.some(b => b.name.toLowerCase() === name.trim().toLowerCase())) return n;
+      const branch: NoteBranch = {
+        id, name: name.trim(), parentId, title: parent.title, body: parent.body,
+        baseTitle: parent.title, baseBody: parent.body, author: 'You', archived: false,
+      };
+      return { ...n, title: branch.title, body: branch.body, edited: true, updated: 'Just now',
+        activeBranchId: id, branches: [...(n.branches ?? []), branch] };
+    }));
+    setGraphOpen(false);
+  };
+  const renameBranch = (id: string, name: string) => {
+    setNotes(prev => prev.map(n => {
+      if (n.id !== selectedId || !name.trim() || name.trim().length > 48 ||
+        n.branches?.some(b => b.id !== id && b.name.toLowerCase() === name.trim().toLowerCase())) return n;
+      return { ...n, branches: n.branches?.map(b => b.id === id ? { ...b, name: name.trim() } : b) };
+    }));
+  };
+  const archiveBranch = (id: string) => {
+    setNotes(prev => prev.map(n => n.id !== selectedId || id === n.activeBranchId ? n : {
+      ...n, branches: n.branches?.map(b => b.id === id && b.parentId ? { ...b, archived: !b.archived } : b),
+    }));
+  };
+  const deleteBranch = (id: string) => {
+    setNotes(prev => prev.map(n => n.id !== selectedId || id === n.activeBranchId ||
+      n.branches?.some(b => b.parentId === id || (b.id === id && b.parentId === null)) ? n : {
+        ...n, branches: n.branches?.filter(b => b.id !== id),
+      }));
+  };
 
   return {
     visible,
@@ -260,11 +352,12 @@ function useNotesState(): NotesState {
     focusTitleId,
     setView,
     setQuery,
-    select: setSelectedId,
+    select: (id) => { setSelectedId(id); setGraphOpen(false); },
     updateNote,
     toggleFavourite,
     createNote,
     clearTitleFocus,
+    graphOpen, setGraphOpen, switchBranch, createBranch, renameBranch, archiveBranch, deleteBranch,
   };
 }
 
@@ -283,6 +376,32 @@ function Wordmark({ size = 20 }: { size?: number }) {
 
 function PreviewPill() {
   return <span className="nwm-preview-pill">Stored in this preview only</span>;
+}
+
+function BranchToggle({ s }: { s: NotesState }) {
+  const ref = useRef<HTMLButtonElement>(null);
+  const wasOpen = useRef(s.graphOpen);
+  useEffect(() => {
+    if (wasOpen.current && !s.graphOpen) ref.current?.focus({ preventScroll: true });
+    wasOpen.current = s.graphOpen;
+  }, [s.graphOpen]);
+  const branch = s.selected.branches?.find(b => b.id === s.selected.activeBranchId);
+  return (
+    <button ref={ref} type="button" className="nwm-branch-toggle"
+      aria-label={`Branches, writing ${branch?.name ?? 'Original'}`}
+      aria-expanded={s.graphOpen} onClick={() => s.setGraphOpen(!s.graphOpen)}>
+      <GitBranch size={16} aria-hidden="true" />
+      <span>{branch?.name ?? 'Original'}</span>
+    </button>
+  );
+}
+
+function NoteBranchGraph({ s }: { s: NotesState }) {
+  return <BranchGraph key={s.selected.id} branches={s.selected.branches ?? []}
+    activeId={s.selected.activeBranchId ?? 'original'}
+    onSwitch={s.switchBranch} onCreate={s.createBranch} onRename={s.renameBranch}
+    onArchive={s.archiveBranch} onDelete={s.deleteBranch}
+    onClose={() => s.setGraphOpen(false)} />;
 }
 
 function SearchField({
@@ -477,10 +596,10 @@ function DesktopMockup({ platform }: { platform: 'mac' | 'windows' | 'omarchy' }
   const [pane, setPane] = useState<'list' | 'editor'>('list');
   const searchRef = useRef<HTMLInputElement>(null);
   const appRef = useRef<HTMLDivElement>(null);
-  const [osTheme, setOsTheme] = useState<string | null>(null);
+  const [osTheme, setOsTheme] = useState('tokyo-night');
   const isMac = platform === 'mac';
   const isWindows = platform === 'windows';
-  const osPalette = OMARCHY_THEMES.find(t => t.id === osTheme);
+  const osPalette = OMARCHY_THEMES.find(t => t.id === osTheme) ?? OMARCHY_THEMES[0];
 
   // Only the selected platform is mounted, so one listener exists at a time.
   useEffect(() => {
@@ -634,8 +753,7 @@ function DesktopMockup({ platform }: { platform: 'mac' | 'windows' | 'omarchy' }
             Notes
           </button>
           <span className="nwm-toolbar-spacer">
-            <span className="nwm-word-count">{plural(note.body.split(/\s+/).filter(Boolean).length, 'word')}</span>
-            {note.edited && <PreviewPill />}
+            <BranchToggle s={s} />
           </span>
           <button
             type="button"
@@ -663,8 +781,10 @@ function DesktopMockup({ platform }: { platform: 'mac' | 'windows' | 'omarchy' }
           </button>
         </header>
         <div className="nwm-page-scroll">
-          <article className="nwm-page">
-            <NoteFields key={note.id} note={note} s={s} variant="desktop" />
+          {s.graphOpen && <NoteBranchGraph s={s} />}
+          <article className="nwm-page" hidden={s.graphOpen} inert={s.graphOpen}>
+            <NoteFields key={`${note.id}:${note.activeBranchId}`} note={note} s={s} variant="desktop" />
+            <p className="nwm-draft-status">{plural(note.body.split(/\s+/).filter(Boolean).length, 'word')}{note.edited && ' · Stored in this preview only'}</p>
           </article>
         </div>
       </section>
@@ -696,20 +816,6 @@ function DesktopMockup({ platform }: { platform: 'mac' | 'windows' | 'omarchy' }
         <>
           <div className="nwm-os-themes" role="group" aria-label="Omarchy theme">
             <span className="nwm-os-themes-label">OS theme</span>
-            <button
-              type="button"
-              className="nwm-os-theme"
-              aria-pressed={osTheme === null}
-              onClick={() => setOsTheme(null)}
-            >
-              <span className="nwm-os-theme-swatch" aria-hidden="true">
-                <span style={{ background: 'var(--bg)' }} />
-                <span style={{ background: 'var(--accent)' }} />
-                <span style={{ background: 'var(--surface-raised)' }} />
-                <span style={{ background: 'var(--fg)' }} />
-              </span>
-              NoteWren
-            </button>
             {OMARCHY_THEMES.map(t => (
               <button
                 key={t.id}
@@ -731,8 +837,8 @@ function DesktopMockup({ platform }: { platform: 'mac' | 'windows' | 'omarchy' }
           <div
             className="nwm-omarchy"
             role="group"
-            aria-label={`NoteWren on Omarchy, mockup${osPalette ? `, ${osPalette.name} theme` : ''}`}
-            style={osPalette ? omarchyThemeStyle(osPalette.colors) : undefined}
+            aria-label={`NoteWren on Omarchy, mockup, ${osPalette.name} theme`}
+            style={omarchyThemeStyle(osPalette.colors)}
           >
             <div className="nwm-waybar" aria-hidden="true">
               <span className="nwm-waybar-workspaces">
@@ -1455,18 +1561,21 @@ function MobileNote({
 
   return (
     <div className="nwm-mscreen nwm-mscreen--note">
-      <MobileTopBar device={device} back={back} focusBack trailing={favourite} />
-      <div className="nwm-mscroll nwm-mscroll--note">
-        <NoteFields key={note.id} note={note} s={s} variant="mobile" />
+      <div hidden={s.graphOpen} inert={s.graphOpen}><MobileTopBar device={device} back={back} focusBack trailing={<><BranchToggle s={s} />{favourite}</>} /></div>
+      <div className={`nwm-mscroll ${s.graphOpen ? 'nwm-mscroll--branches' : 'nwm-mscroll--note'}`}>
+        {s.graphOpen && <NoteBranchGraph s={s} />}
+        <div hidden={s.graphOpen} inert={s.graphOpen}>
+          <NoteFields key={`${note.id}:${note.activeBranchId}`} note={note} s={s} variant="mobile" />
+        </div>
       </div>
-      {ios ? (
+      {!s.graphOpen && (ios ? (
         <IosToolbar status={status} onCreate={onCreate} />
       ) : (
         <div className="nwm-mbottombar">
           <span className="nwm-mtoolbar-status">{status}</span>
           <ComposeButton device={device} docked onCreate={onCreate} />
         </div>
-      )}
+      ))}
     </div>
   );
 }
