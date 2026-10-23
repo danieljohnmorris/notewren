@@ -4,7 +4,7 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 import { isTauri } from '@tauri-apps/api/core';
 import { Menu } from '@tauri-apps/api/menu';
 import { LogicalPosition } from '@tauri-apps/api/dpi';
-import { ArrowLeft, GitBranch, History, Moon, Pencil, Plus, RefreshCw, Search, Settings2, Sun } from 'lucide-react';
+import { ArrowLeft, GitBranch, History, Moon, SquarePen, Plus, RefreshCw, Search, Settings2, Sun } from 'lucide-react';
 import { bridge, type Branch, type Note, type Revision, type Settings, type SyncStatus } from './bridge';
 import { MarkdownEditor } from '../../../src/components/MarkdownEditor';
 import { BranchGraph, type NoteBranch } from './components/BranchGraph';
@@ -346,7 +346,8 @@ export function App() {
     </aside>
     <main className="workspace" aria-label="Note editor">
       <header className="editor-toolbar" data-tauri-drag-region><div className="toolbar-group" role="group" aria-label="Note views">
-        <button ref={editorButton} disabled={!active || busy || syncing} aria-pressed={panel === null} onClick={closePanel}><Pencil size={16} aria-hidden="true" /> Editor</button>
+        <button ref={editorButton} disabled={!ready || busy || syncing} onClick={() => act(newNote)} title="New note (⌘N)"><SquarePen size={16} aria-hidden="true" /> New note</button>
+        {panel !== null && <button disabled={busy || syncing} onClick={closePanel}><ArrowLeft size={16} aria-hidden="true" /> Back to note</button>}
         <button disabled={!active || busy || syncing} aria-pressed={panel === 'branches'} onClick={() => act(() => openPanel('branches'))}><GitBranch size={16} aria-hidden="true" /> Branches</button>
         <button disabled={!active || busy || syncing} aria-pressed={panel === 'history'} onClick={() => act(() => openPanel('history'))}><History size={16} aria-hidden="true" /> History</button>
       </div><span className="writing-branch" title={`Writing: ${writingBranch?.name ?? 'Main'}`}>Writing: {writingBranch?.name ?? 'Main'}</span><button disabled={!active || busy || syncing} onClick={() => act(() => openPanel('branches', true))}><Plus size={15} aria-hidden="true" /> New branch</button><button disabled={!ready || !syncStatus?.configured || busy || syncing} onClick={() => void sync()}><RefreshCw size={15} aria-hidden="true" />{syncing ? 'Syncing…' : 'Sync now'}</button></header>
@@ -375,7 +376,7 @@ export function App() {
         onRename={async (id, name) => { await bridge.renameBranch(id, name); await refreshBranches(draft.current!); }}
         onArchive={async (id) => { const branch = branches.find((item) => item.id === id)!; await bridge.archiveBranch(id, !branch.archived, active.branch_id); await refreshBranches(draft.current!); }}
         onDelete={async (id) => { await bridge.deleteBranch(id, active.branch_id); await refreshBranches(draft.current!); }} />}
-      {panel === 'history' && <section className="history-panel"><button onClick={closePanel}><ArrowLeft size={16} aria-hidden="true" /> Return to editor</button><h2>Revision history</h2><p>Inspection leaves your writing branch and undo history unchanged.</p>
+      {panel === 'history' && <section className="history-panel"><h2>Revision history</h2><p>Inspection leaves your writing branch and undo history unchanged.</p>
         <div className="history-layout"><ol className="revision-list">{revisions.map((revision) => <li key={revision.id}><button aria-pressed={inspected?.id === revision.id} onClick={() => setInspected(revision)}><strong>{revision.created_at == null ? 'Time unavailable' : new Date(revision.created_at).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' })}</strong><span>{revision.kind}{revision.id === active?.revision_id ? ' · Writing' : ''}</span></button></li>)}</ol>
           {inspected ? <article className="revision-preview"><h3>{inspected.title || 'Untitled note'}</h3><p className="revision-meta">{inspected.parents.length === 2 ? 'Merge with two parents' : 'Revision'} · {inspected.id.slice(0, 8)}</p><pre>{inspected.body || 'Empty body'}</pre><p className="revision-meta">{inspected.parents.length ? `Parents: ${inspected.parents.map((id) => id.slice(0, 8)).join(', ')}` : 'Original snapshot'}</p><button className="primary" disabled={busy} onClick={() => act(() => exclusive(async () => {
             if (!draft.current) return;

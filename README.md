@@ -135,7 +135,7 @@ npm --workspace apps/desktop run tauri:dev
 npm --workspace apps/desktop run tauri:build
 ```
 
-The native app opens with `Editor`, `Branches` and `History` views. `New branch` starts an explicit branch from the current editor, and inspecting a branch does not switch the writing branch until `Switch to this branch` is chosen. The note-row context menu contains note actions without leaving the editor. The macOS shell uses the webview for its controls and a native overlay title bar with system traffic lights, while the application surface uses compact system typography and neutral macOS-style tones.
+Selecting a note opens it for editing immediately. The toolbar has a square-and-pencil `New note` action, with `Branches` and `History` as secondary views and `Back to note` to return. `New branch` starts an explicit branch from the current editor, and inspecting a branch does not switch the writing branch until `Switch to this branch` is chosen. The note-row context menu contains note actions without leaving the editor. The macOS shell uses the webview for its controls and a native overlay title bar with system traffic lights, while the application surface uses compact system typography and neutral macOS-style tones.
 
 The macOS sidebar heading sits below the traffic lights. The packaged icon uses an Icon Composer asset with glass, shadow and specular effects disabled, preserving the flat wren artwork on macOS Tahoe. Its source is in `apps/desktop/src-tauri/icons/NoteWren.icon`; compiled assets are checked in under `icons/macos`, so normal builds do not require Icon Composer.
 

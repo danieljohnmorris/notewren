@@ -5,7 +5,7 @@
 - Kept the macOS app icon flat and crisp on Tahoe with an explicit Icon Composer asset and disabled glass effects.
 - Moved the All notes heading below the macOS traffic lights, aligned with the sidebar content.
 - Added a native macOS presentation with an overlay title bar, system traffic lights, compact controls and neutral system typography. The controls remain rendered by the Tauri webview.
-- Added explicit Editor, Branches and History navigation, a labelled New branch action and a native note-row context menu.
+- Added Branches and History navigation with Back to note, a square-and-pencil New note action, a labelled New branch action and a native note-row context menu. Notes are editable without an Editor button.
 - Added a read-only revision preview with persisted timestamps where available.
 - Moved save status and word count into a fixed bar beneath the editor, outside the scrolling document.
 - Added a self-hosted Rust HTTP sync server with bearer authentication, idempotent operation receipts, conservative merges and conflict branches.
