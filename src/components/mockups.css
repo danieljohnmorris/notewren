@@ -1,0 +1,1811 @@
+/* NoteWren platform mockups. Every rule is scoped to .nwm-desktop or .nwm-mobile. */
+
+.nwm-desktop,
+.nwm-mobile,
+.nwm-omarchy {
+  --nwm-sidebar: var(--surface);
+  --nwm-list: var(--surface);
+  --nwm-editor: var(--surface);
+  --nwm-hairline: color-mix(in oklab, var(--border) 70%, transparent);
+  --nwm-hover: color-mix(in oklab, var(--fg) 5%, transparent);
+  --nwm-selected: color-mix(in oklab, var(--fg) 9%, transparent);
+  --nwm-slide: calc(var(--duration-normal) * 1.5);
+  font-family: var(--font-ui);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The Omarchy frame (Waybar and the Hyprland border) follows the OS theme.
+   Without one selected it keeps NoteWren's own graphite and terracotta. */
+.nwm-desktop--omarchy {
+  --nwm-frame-bg: #1c1d1f;
+  --nwm-frame-fg: #d9d5cc;
+  --nwm-frame-muted: #8e8b84;
+  --nwm-frame-accent: var(--terracotta);
+  --nwm-frame-on-accent: #1c1d1f;
+}
+
+:where(.nwm-desktop, .nwm-mobile) *,
+:where(.nwm-desktop, .nwm-mobile) *::before,
+:where(.nwm-desktop, .nwm-mobile) *::after {
+  box-sizing: border-box;
+}
+
+:where(.nwm-desktop, .nwm-mobile) :where(button, input, textarea) {
+  font: inherit;
+  color: inherit;
+}
+
+:where(.nwm-desktop, .nwm-mobile) :where(button) {
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+:where(.nwm-desktop, .nwm-mobile) :where(button):focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+:where(.nwm-desktop, .nwm-mobile) ::selection {
+  background: var(--selection);
+}
+
+.nwm-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.nwm-footnote {
+  margin: var(--space-3) 0 0;
+  text-align: center;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* Shared pieces                                                       */
+/* ------------------------------------------------------------------ */
+
+.nwm-wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--fg);
+}
+
+.nwm-wordmark-logo {
+  flex: none;
+}
+
+.nwm-wordmark-text {
+  font-size: 1.0625rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  line-height: 1;
+}
+
+.nwm-wordcount {
+  flex: none;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.nwm-preview-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.125rem 0.55rem;
+  border-radius: 999px;
+  background: var(--warning-soft);
+  color: var(--warning);
+  font-size: 0.71875rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.nwm-icon-button {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--muted);
+  transition: background-color var(--duration-fast), color var(--duration-fast);
+}
+
+.nwm-icon-button:hover {
+  background: var(--nwm-hover);
+  color: var(--fg);
+}
+
+.nwm-icon-button[aria-pressed='true'] {
+  color: var(--accent);
+}
+
+.nwm-list-tools,
+.nwm-editor-tools {
+  display: flex;
+  gap: 0.125rem;
+}
+
+.nwm-text-button {
+  padding: 0.25rem 0.125rem;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+
+.nwm-text-button:hover {
+  text-decoration: underline;
+}
+
+/* Search */
+
+.nwm-search {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 1.875rem;
+  padding: 0 0.4rem 0 0.625rem;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: var(--surface-sunken);
+  transition: border-color var(--duration-fast), box-shadow var(--duration-fast);
+}
+
+.nwm-search:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.nwm-search-icon {
+  flex: none;
+  color: var(--muted);
+}
+
+.nwm-search input {
+  flex: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 0.8125rem;
+}
+
+.nwm-search input::placeholder {
+  color: var(--muted);
+}
+
+.nwm-search input::-webkit-search-cancel-button,
+.nwm-search input::-webkit-search-decoration {
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.nwm-search-clear {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: color-mix(in oklab, var(--fg) 10%, transparent);
+  color: var(--muted);
+}
+
+.nwm-search-clear:hover {
+  color: var(--fg);
+}
+
+/* Note rows */
+
+.nwm-note-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0 0.5rem;
+  list-style: none;
+}
+
+.nwm-note-list > li + li {
+  border-top: 1px solid var(--nwm-hairline);
+}
+
+.nwm-note {
+  display: grid;
+  gap: 0.125rem;
+  width: 100%;
+  padding: 0.5rem 0.625rem;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  text-align: left;
+  transition: background-color var(--duration-fast);
+}
+
+.nwm-note:hover {
+  background: var(--nwm-hover);
+}
+
+.nwm-note-list .nwm-note[aria-current='true'] {
+  background: var(--nwm-selected);
+}
+
+.nwm-note-head {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+.nwm-note-title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.nwm-note-title.is-untitled {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.nwm-note-star {
+  flex: none;
+  color: var(--accent);
+}
+
+.nwm-note-snippet {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 0.78125rem;
+  line-height: 1.45;
+  color: var(--muted);
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.nwm-note-meta {
+  display: flex;
+  gap: 0.3rem;
+  font-size: 0.71875rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Empty states */
+
+.nwm-empty {
+  display: grid;
+  justify-items: center;
+  gap: 0.375rem;
+  padding: var(--space-7) var(--space-5);
+  text-align: center;
+  color: var(--muted);
+}
+
+.nwm-empty-title {
+  margin: var(--space-2) 0 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  font-size: var(--text-sm);
+  font-weight: 750;
+  color: var(--fg);
+}
+
+.nwm-empty-body {
+  margin: 0;
+  font-size: 0.8125rem;
+}
+
+.nwm-empty-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1rem;
+  margin-top: 0.25rem;
+}
+
+/* Writing page fields */
+
+.nwm-title-input,
+.nwm-body-input {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: var(--fg);
+  caret-color: var(--accent);
+}
+
+.nwm-title-input {
+  font-family: var(--font-prose);
+  font-size: 2rem;
+  font-weight: 620;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.nwm-title-input::placeholder {
+  color: var(--muted);
+}
+
+.nwm-fields-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin: 0.5rem 0 1.5rem;
+  font-size: 0.78125rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.nwm-body-input {
+  min-height: 15rem;
+  font-family: var(--font-prose);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  tab-size: 4;
+}
+
+/* Back button: shown on narrow desktop layouts and on the phone */
+
+.nwm-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+  flex: none;
+  padding: 0.25rem 0.375rem 0.25rem 0;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--accent);
+  font-size: 0.84375rem;
+  font-weight: 700;
+}
+
+/* ------------------------------------------------------------------ */
+/* Desktop frames                                                      */
+/* ------------------------------------------------------------------ */
+
+.nwm-desktop {
+  container: nwm-desktop / inline-size;
+  --nwm-height: 640px;
+}
+
+.nwm-mac {
+  display: flex;
+  flex-direction: column;
+  height: var(--nwm-height);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--nwm-sidebar);
+  box-shadow: var(--shadow-window);
+}
+
+/* Traffic lights sit inside the sidebar toolbar, as in a macOS
+   full-height sidebar window. */
+.nwm-traffic {
+  display: flex;
+  gap: 0.5rem;
+  padding-left: 0.25rem;
+}
+
+.nwm-traffic-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 0.5px rgb(0 0 0 / 0.18);
+}
+
+.nwm-traffic-dot--close { background: #ff5f57; }
+.nwm-traffic-dot--min { background: #febc2e; }
+.nwm-traffic-dot--max { background: #28c840; }
+
+/* Windows 11: a title bar with caption buttons on the right, 8px corners,
+   and a Mica-style tint (the surface mixed with a little of the background). */
+.nwm-windows {
+  display: flex;
+  flex-direction: column;
+  height: var(--nwm-height);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--nwm-sidebar);
+  box-shadow: var(--shadow-window);
+  font-family: 'Segoe UI Variable', 'Segoe UI', var(--font-ui);
+}
+
+.nwm-win-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex: none;
+  height: 2rem;
+  padding-left: 0.75rem;
+  background: color-mix(in oklab, var(--nwm-sidebar) 85%, var(--bg));
+  user-select: none;
+}
+
+.nwm-win-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.nwm-win-captions {
+  display: flex;
+  height: 100%;
+}
+
+.nwm-win-caption {
+  display: inline-grid;
+  place-items: center;
+  width: 2.875rem;
+  height: 100%;
+  color: var(--fg);
+}
+
+.nwm-win-caption:hover {
+  background: var(--nwm-hover);
+}
+
+.nwm-win-caption--close:hover {
+  background: #c42b1c;
+  color: #fff;
+}
+
+.nwm-windows .nwm-toolbar {
+  height: 2.75rem;
+}
+
+.nwm-omarchy {
+  display: flex;
+  flex-direction: column;
+  height: var(--nwm-height);
+  padding: 0 0.5rem 0.5rem;
+  border-radius: 10px;
+  background: var(--nwm-frame-bg);
+  box-shadow: var(--shadow-window), inset 0 0 0 1px color-mix(in oklab, var(--nwm-frame-fg) 12%, var(--nwm-frame-bg));
+  color: var(--nwm-frame-fg);
+}
+
+.nwm-waybar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  flex: none;
+  height: 2.125rem;
+  padding: 0 0.25rem;
+  font-family: var(--font-code);
+  font-size: 0.75rem;
+  user-select: none;
+}
+
+.nwm-waybar-workspaces {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.nwm-waybar-workspaces span {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.375rem;
+  height: 1.25rem;
+  border-radius: 4px;
+  color: var(--nwm-frame-muted);
+}
+
+.nwm-waybar-workspaces .is-active {
+  background: var(--nwm-frame-accent);
+  color: var(--nwm-frame-on-accent);
+  font-weight: 700;
+}
+
+.nwm-waybar-title {
+  font-weight: 700;
+  color: var(--nwm-frame-fg);
+}
+
+.nwm-waybar-status {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.nwm-waybar-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+}
+
+.nwm-waybar-example {
+  padding: 0 0.375rem;
+  border: 1px dashed color-mix(in oklab, var(--nwm-frame-muted) 70%, transparent);
+  border-radius: 4px;
+  font-size: 0.625rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--nwm-frame-muted);
+}
+
+.nwm-omarchy-client {
+  color: var(--fg);
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  border: 2px solid var(--nwm-frame-accent);
+  border-radius: 2px;
+}
+
+/* OS theme picker above the Omarchy frame */
+.nwm-os-themes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.nwm-os-themes-label {
+  margin-right: 0.25rem;
+  font-size: var(--text-xs);
+  font-weight: 650;
+  color: var(--muted);
+}
+
+.nwm-os-theme {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2rem;
+  padding: 0.25rem 0.625rem 0.25rem 0.375rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-raised);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--muted);
+  transition: border-color var(--duration-fast), color var(--duration-fast);
+}
+
+.nwm-os-theme:hover {
+  color: var(--fg);
+}
+
+.nwm-os-theme[aria-pressed='true'] {
+  border-color: var(--fg);
+  box-shadow: inset 0 0 0 1px var(--fg);
+  color: var(--fg);
+}
+
+.nwm-os-theme-swatch {
+  display: inline-grid;
+  grid-template-columns: repeat(2, 1fr);
+  width: 1.125rem;
+  height: 1.125rem;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px #0002;
+}
+
+.nwm-os-theme-swatch span {
+  display: block;
+}
+
+/* ------------------------------------------------------------------ */
+/* Desktop app layout                                                  */
+/* ------------------------------------------------------------------ */
+
+.nwm-app {
+  display: grid;
+  grid-template-columns: 224px 300px minmax(0, 1fr);
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  background: var(--nwm-sidebar);
+}
+
+.nwm-app .nwm-back {
+  display: none;
+}
+
+/* Sidebar */
+
+.nwm-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  padding: 0 0.625rem 0.625rem;
+  border-right: 1px solid var(--nwm-hairline);
+  background: var(--nwm-sidebar);
+}
+
+/* One toolbar row runs across all three panes at the same height. */
+.nwm-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: none;
+  height: 3.25rem;
+  user-select: none;
+}
+
+.nwm-toolbar-spacer {
+  flex: 1;
+}
+
+.nwm-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.nwm-nav-item {
+  display: grid;
+  grid-template-columns: 1.25rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+  padding: 0.4375rem 0.625rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: none;
+  font-size: 0.84375rem;
+  font-weight: 600;
+  text-align: left;
+  transition: background-color var(--duration-fast);
+}
+
+.nwm-nav-item:hover {
+  background: var(--nwm-hover);
+}
+
+.nwm-nav-item[aria-current='true'] {
+  background: var(--nwm-selected);
+}
+
+.nwm-nav-icon {
+  display: inline-grid;
+  place-items: center;
+  color: var(--muted);
+}
+
+.nwm-nav-item[aria-current='true'] .nwm-nav-icon {
+  color: var(--accent);
+}
+
+.nwm-nav-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.nwm-nav-count {
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.nwm-nav-heading {
+  margin: 1.125rem 0.625rem 0.375rem;
+  font-size: 0.6875rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.nwm-sidebar-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: auto 0 0;
+  padding: 0.5rem 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Note list */
+
+.nwm-list {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  border-right: 1px solid var(--nwm-hairline);
+  background: var(--nwm-list);
+}
+
+.nwm-list-header {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0 0.75rem 0.5rem;
+}
+
+.nwm-list .nwm-toolbar {
+  padding: 0 0.125rem;
+}
+
+.nwm-list-title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  font-size: 0.875rem;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.nwm-list .nwm-note-list {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+/* Editor */
+
+.nwm-editor {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: var(--nwm-editor);
+}
+
+.nwm-editor .nwm-toolbar {
+  padding: 0 0.75rem 0 1rem;
+}
+
+.nwm-editor .nwm-toolbar-spacer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nwm-page-scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+}
+
+.nwm-page {
+  max-width: 42.5rem;
+  margin: 0 auto;
+  padding: 2.75rem 3rem 4rem;
+}
+
+.nwm-word-count {
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+/* Focus mode: the editor takes the whole window */
+
+.nwm-app[data-focus='true'] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.nwm-app[data-focus='true'] .nwm-sidebar,
+.nwm-app[data-focus='true'] .nwm-list {
+  display: none;
+}
+
+.nwm-app[data-focus='true'] .nwm-editor {
+  display: flex;
+}
+
+.nwm-app[data-focus='true'] .nwm-page {
+  max-width: 46rem;
+  padding-top: 4rem;
+}
+
+/* Collapsed sidebar rail */
+
+@container nwm-desktop (max-width: 900px) {
+  .nwm-app {
+    grid-template-columns: 60px 272px minmax(0, 1fr);
+  }
+
+  .nwm-sidebar {
+    align-items: center;
+    padding: 0 0.5rem 0.625rem;
+  }
+
+  .nwm-sidebar .nwm-toolbar {
+    justify-content: center;
+  }
+
+  .nwm-sidebar .nwm-traffic {
+    display: none;
+  }
+
+  .nwm-sidebar .nwm-wordmark-text,
+  .nwm-sidebar .nwm-nav-label,
+  .nwm-nav-count {
+    display: none;
+  }
+
+  .nwm-nav {
+    align-items: center;
+  }
+
+  .nwm-nav-item {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+  }
+
+  .nwm-nav-heading {
+    width: 1.75rem;
+    height: 1px;
+    margin: 0.75rem 0;
+    overflow: hidden;
+    background: var(--border);
+    font-size: 0;
+  }
+
+  .nwm-sidebar-status {
+    justify-content: center;
+    padding: 0.5rem 0;
+  }
+
+  .nwm-page {
+    padding: 2.25rem 2rem 3.5rem;
+  }
+
+  .nwm-title-input {
+    font-size: 1.75rem;
+  }
+}
+
+/* List and editor alternate */
+
+@container nwm-desktop (max-width: 600px) {
+  .nwm-mac,
+  .nwm-omarchy {
+    --nwm-height: 600px;
+  }
+
+  .nwm-app {
+    grid-template-columns: 52px minmax(0, 1fr);
+  }
+
+  .nwm-app[data-pane='list'] .nwm-editor,
+  .nwm-app[data-pane='editor'] .nwm-list {
+    display: none;
+  }
+
+  .nwm-app .nwm-back {
+    display: inline-flex;
+  }
+
+  .nwm-list {
+    border-right: 0;
+  }
+
+  .nwm-editor .nwm-toolbar {
+    padding: 0 0.5rem 0 0.625rem;
+  }
+
+  .nwm-editor .nwm-toolbar-spacer > span:not(.nwm-preview-pill) {
+    display: none;
+  }
+
+  .nwm-page,
+  .nwm-app[data-focus='true'] .nwm-page {
+    padding: 1.5rem 1.25rem 3rem;
+  }
+
+  .nwm-title-input {
+    font-size: 1.5rem;
+  }
+
+  .nwm-body-input {
+    font-size: 1rem;
+  }
+
+  .nwm-waybar-item svg {
+    display: none;
+  }
+}
+
+@container nwm-desktop (max-width: 440px) {
+  .nwm-waybar-title {
+    display: none;
+  }
+
+  .nwm-waybar {
+    grid-template-columns: auto 1fr;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Mobile                                                              */
+/* ------------------------------------------------------------------ */
+
+/* Phone screens are drawn at about 84% of device size, so a 44pt iOS
+   target is 2.75rem here and a 48dp Android target is 3rem. */
+.nwm-mobile[data-device='ios'] {
+  --nwm-status-height: 3rem;
+  --nwm-system-font: -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+}
+
+.nwm-mobile[data-device='android'] {
+  --nwm-status-height: 2.25rem;
+  --nwm-system-font: Roboto, 'Google Sans Text', system-ui, sans-serif;
+}
+
+.nwm-device-controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.nwm-device-controls .segmented {
+  width: auto;
+}
+
+.nwm-phones {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: var(--space-7);
+}
+
+.nwm-phone-figure {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-3);
+  flex: 0 1 330px;
+  min-width: 0;
+  margin: 0;
+}
+
+.nwm-phone-figure figcaption {
+  font-size: 0.78125rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* Device frame */
+
+.nwm-phone {
+  flex: none;
+  width: min(330px, 100%);
+  height: 620px;
+  padding: 9px;
+  border-radius: 48px;
+  background: #1b1916;
+  box-shadow: var(--shadow-window), inset 0 0 0 1.5px #3b3732;
+}
+
+.nwm-phone-screen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 39px;
+  background: var(--bg);
+  font-family: var(--nwm-system-font);
+  isolation: isolate;
+}
+
+/* The status bar floats over the screens, so each screen paints its own
+   colour behind it and slides beneath it. */
+.nwm-phone-status {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  height: var(--nwm-status-height);
+  padding: 0 1.25rem 0 1.75rem;
+  font-size: 0.875rem;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  user-select: none;
+}
+
+.nwm-phone-camera {
+  width: 5.75rem;
+  height: 1.6875rem;
+  border-radius: 999px;
+  background: #000;
+}
+
+.nwm-phone-indicators {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.nwm-phone-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.nwm-phone-home {
+  position: absolute;
+  bottom: 7px;
+  left: 50%;
+  z-index: 3;
+  width: 6.75rem;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--fg);
+  opacity: 0.85;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.nwm-mobile[data-device='android'] .nwm-phone {
+  border-radius: 30px;
+}
+
+.nwm-mobile[data-device='android'] .nwm-phone-screen {
+  border-radius: 22px;
+}
+
+.nwm-mobile[data-device='android'] .nwm-phone-status {
+  padding: 0 1.125rem 0 1.375rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.nwm-mobile[data-device='android'] .nwm-phone-camera {
+  width: 0.625rem;
+  height: 0.625rem;
+}
+
+.nwm-mobile[data-device='android'] .nwm-phone-indicators {
+  gap: 0.25rem;
+}
+
+.nwm-mobile[data-device='android'] .nwm-phone-home {
+  bottom: 6px;
+  width: 4.5rem;
+  height: 3px;
+  opacity: 0.6;
+}
+
+/* Folding devices. The frame is a fixed size and zooms to fit the container
+   (see FoldDevice). A book fold has one inner screen with a crease; the Duo
+   has two screens with a real hinge, each with its own status bar. */
+
+.nwm-fold {
+  flex: none;
+  max-width: 100%;
+  padding: 9px;
+  border-radius: 28px;
+  background: #1b1916;
+  box-shadow: var(--shadow-window), inset 0 0 0 1.5px #3b3732;
+}
+
+.nwm-fold-screen {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  height: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+  background: var(--bg);
+  font-family: var(--nwm-system-font);
+  isolation: isolate;
+}
+
+.nwm-fold-pane {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* The crease is a soft shadow down the middle of a single screen. */
+.nwm-fold-hinge {
+  width: 1px;
+  background: color-mix(in oklab, var(--fg) 14%, transparent);
+  box-shadow: 0 0 10px 3px color-mix(in oklab, var(--fg) 8%, transparent);
+}
+
+.nwm-mobile[data-device='ios'] .nwm-fold-hinge {
+  background: color-mix(in oklab, var(--fg) 8%, transparent);
+  box-shadow: 0 0 10px 3px color-mix(in oklab, var(--fg) 5%, transparent);
+}
+
+.nwm-fold-camera {
+  position: absolute;
+  top: 10px;
+  right: 24px;
+  z-index: 3;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background: #000;
+}
+
+/* Duo: two screens separated by a 14px hinge; each pane owns its status bar
+   and home indicator, so the shared ones are not drawn. */
+.nwm-mobile[data-form='duo'] .nwm-fold {
+  border-radius: 18px;
+}
+
+.nwm-mobile[data-form='duo'] .nwm-fold-screen {
+  gap: 0;
+  background: #1b1916;
+  border-radius: 12px;
+}
+
+.nwm-mobile[data-form='duo'] .nwm-fold-pane {
+  border-radius: 10px;
+  background: var(--bg);
+}
+
+.nwm-mobile[data-form='duo'] .nwm-fold-hinge {
+  width: 14px;
+  background: #2a2724;
+  box-shadow: inset 2px 0 3px #0006, inset -2px 0 3px #0006;
+}
+
+.nwm-mobile[data-form='duo'] .nwm-fold-pane .nwm-phone-status {
+  padding: 0 1rem;
+}
+
+.nwm-mobile[data-form='duo'] .nwm-fold-pane .nwm-phone-home {
+  width: 3.5rem;
+}
+
+/* With both panes on screen the note pane carries the compose control, so the
+   library pane drops its toolbar or floating button. Narrow panes also take a
+   smaller note title. */
+.nwm-fold-pane--library .nwm-mtoolbar,
+.nwm-fold-pane--library .nwm-mfab {
+  display: none;
+}
+
+.nwm-fold-pane .nwm-fields--mobile .nwm-title-input {
+  font-size: 1.3125rem;
+}
+
+.nwm-mobile[data-device='android'] .nwm-fold-pane--library .nwm-mscroll {
+  padding-bottom: 1rem;
+}
+
+/* Navigation stack: one screen is current, the rest wait to either side.
+   iOS pushes the new screen over the old one; Android shares an axis and
+   crossfades. Hidden screens turn invisible once they finish moving. */
+
+.nwm-mstack {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.nwm-mslot {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform var(--nwm-slide) var(--ease-out),
+    opacity var(--nwm-slide) var(--ease-out),
+    visibility 0s linear 0s;
+}
+
+.nwm-mslot:not([data-pos='current']) {
+  visibility: hidden;
+  transition-delay: 0s, 0s, var(--nwm-slide);
+}
+
+.nwm-mslot[data-jump] {
+  transition: none;
+}
+
+.nwm-mobile[data-device='ios'] .nwm-mslot {
+  box-shadow: -12px 0 28px -16px rgb(0 0 0 / 0.35);
+}
+
+.nwm-mobile[data-device='ios'] .nwm-mslot:is([data-pos='behind'], [data-pos='buried']) {
+  transform: translateX(-28%);
+}
+
+.nwm-mobile[data-device='ios'] .nwm-mslot[data-pos='ahead'] {
+  transform: translateX(100%);
+}
+
+.nwm-mobile[data-device='android'] .nwm-mslot:not([data-pos='current']) {
+  opacity: 0;
+}
+
+.nwm-mobile[data-device='android'] .nwm-mslot:is([data-pos='behind'], [data-pos='buried']) {
+  transform: translateX(-2.5rem);
+}
+
+.nwm-mobile[data-device='android'] .nwm-mslot[data-pos='ahead'] {
+  transform: translateX(2.5rem);
+}
+
+/* Screens */
+
+.nwm-mscreen {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  padding-top: var(--nwm-status-height);
+  background: var(--bg);
+}
+
+.nwm-mscreen--note {
+  background: var(--nwm-editor);
+}
+
+.nwm-mscroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 0 1rem 1rem;
+  scrollbar-width: none;
+}
+
+.nwm-mscroll::-webkit-scrollbar {
+  display: none;
+}
+
+.nwm-mobile[data-device='android'] .nwm-mscroll:not(.nwm-mscroll--note) {
+  padding: 0 0 5.5rem;
+}
+
+.nwm-mobile :is(.nwm-mappbar-title, .nwm-mlargetitle, .nwm-mtopbar-title):focus {
+  outline: none;
+}
+
+/* Library app bar: app icon and name, as on the approved panel */
+
+.nwm-mappbar {
+  display: flex;
+  align-items: center;
+  flex: none;
+  min-height: 2.75rem;
+  padding: 0 1rem;
+}
+
+.nwm-mappbar-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 1.0625rem;
+  font-weight: 750;
+  letter-spacing: -0.01em;
+}
+
+.nwm-mappicon {
+  display: inline-grid;
+  place-items: center;
+  width: 1.625rem;
+  height: 1.625rem;
+  border-radius: 0.4375rem;
+  background: var(--terracotta);
+  color: var(--cream);
+}
+
+.nwm-mobile[data-device='android'] .nwm-mappbar {
+  min-height: 3.5rem;
+}
+
+.nwm-mobile[data-device='android'] .nwm-mappbar-title {
+  gap: 0.625rem;
+  font-size: 1.125rem;
+}
+
+.nwm-mobile[data-device='android'] .nwm-mappicon {
+  border-radius: 50%;
+}
+
+/* Top bars */
+
+.nwm-mtopbar {
+  display: flex;
+  align-items: center;
+  flex: none;
+  min-height: 2.75rem;
+  padding: 0 0.375rem 0 0.125rem;
+}
+
+.nwm-mtopbar-start {
+  width: 0;
+}
+
+.nwm-mtopbar-end {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+
+.nwm-mback {
+  display: inline-flex;
+  align-items: center;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0 0.5rem 0 0;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  color: var(--accent);
+  font-size: 0.9375rem;
+}
+
+.nwm-mback-label {
+  max-width: 9rem;
+  margin-left: -0.125rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nwm-mlargetitle {
+  margin: 0.125rem 0 0.625rem;
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.nwm-mobile[data-device='android'] .nwm-mtopbar {
+  gap: 0.25rem;
+  min-height: 3.5rem;
+  padding: 0 0.25rem;
+}
+
+.nwm-mobile[data-device='android'] .nwm-mback {
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border-radius: 50%;
+  color: var(--fg);
+}
+
+.nwm-mtopbar-title {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 1.1875rem;
+  font-weight: 500;
+}
+
+/* Icon buttons */
+
+.nwm-mtool {
+  display: inline-grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--accent);
+}
+
+.nwm-mobile[data-device='android'] .nwm-mtool {
+  width: 3rem;
+  height: 3rem;
+  color: var(--muted);
+}
+
+.nwm-mobile[data-device='android'] .nwm-mtool[aria-pressed='true'] {
+  color: var(--accent);
+}
+
+@media (hover: hover) {
+  .nwm-mback:hover,
+  .nwm-mtool:hover {
+    background: var(--nwm-hover);
+  }
+}
+
+/* iOS bottom toolbar: status in the middle, compose at the trailing edge */
+
+.nwm-mtoolbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  flex: none;
+  padding: 0.25rem 0.625rem 1.625rem;
+  border-top: 1px solid var(--nwm-hairline);
+  background: color-mix(in oklab, var(--surface-raised) 86%, transparent);
+  backdrop-filter: blur(12px);
+}
+
+.nwm-mtoolbar .nwm-mtool--compose {
+  justify-self: end;
+}
+
+.nwm-mtoolbar-status {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.nwm-mformat {
+  letter-spacing: 0.01em;
+}
+
+/* Android: floating action button, docked into the bottom app bar on a note */
+
+.nwm-mfab {
+  position: absolute;
+  right: 1rem;
+  bottom: 1.75rem;
+  z-index: 1;
+  display: inline-grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  padding: 0;
+  border: 0;
+  border-radius: 1rem;
+  background: var(--accent-soft);
+  color: var(--accent);
+  box-shadow: 0 4px 10px -4px rgb(0 0 0 / 0.3), 0 1px 3px rgb(0 0 0 / 0.14);
+  transition: background-color var(--duration-fast);
+}
+
+.nwm-mfab:hover {
+  background: color-mix(in oklab, var(--accent-soft) 88%, var(--accent));
+}
+
+.nwm-mfab--docked {
+  position: static;
+  box-shadow: none;
+}
+
+.nwm-mbottombar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: none;
+  padding: 0.625rem 1rem 1.375rem 1.25rem;
+  background: color-mix(in oklab, var(--surface-sunken) 80%, var(--nwm-editor));
+}
+
+.nwm-mbottombar .nwm-mtoolbar-status {
+  font-size: 0.75rem;
+}
+
+/* Search */
+
+.nwm-msearch {
+  margin: 0.25rem 0 0.875rem;
+}
+
+.nwm-mobile .nwm-search {
+  height: 2.25rem;
+  border-color: transparent;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--fg) 7%, var(--bg));
+}
+
+.nwm-mobile .nwm-search input {
+  font-size: 0.9375rem;
+}
+
+.nwm-mobile[data-device='android'] .nwm-msearch {
+  margin: 0.25rem 1rem 0.5rem;
+}
+
+.nwm-mobile[data-device='android'] .nwm-search {
+  gap: 0.75rem;
+  height: 3rem;
+  padding: 0 0.625rem 0 1.125rem;
+  border-radius: 999px;
+  background: color-mix(in oklab, var(--surface-sunken) 85%, var(--fg) 4%);
+}
+
+.nwm-mstatus {
+  margin: 0 1.5rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.nwm-mstatus:empty {
+  margin: 0;
+}
+
+/* Collection rows. iOS: an inset grouped list with chevrons and hairlines.
+   Android: a plain list where the open collection gets a tonal pill. */
+
+.nwm-mrows,
+.nwm-mnotes {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nwm-mrow {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.75rem minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+  min-height: 2.75rem;
+  padding: 0 0.75rem 0 0.875rem;
+  border: 0;
+  background: none;
+  text-align: left;
+  font-size: 0.9375rem;
+}
+
+.nwm-mrow-icon {
+  display: inline-grid;
+  place-items: center;
+  color: var(--accent);
+}
+
+.nwm-mrow-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nwm-mrow-count {
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+}
+
+.nwm-mrow-chevron {
+  color: color-mix(in oklab, var(--muted) 65%, transparent);
+}
+
+.nwm-msection {
+  margin: 1.375rem 0 0.4375rem 0.25rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.nwm-mobile[data-device='ios'] :is(.nwm-mrows, .nwm-mnotes) {
+  overflow: hidden;
+  border-radius: 10px;
+  background: var(--surface-raised);
+}
+
+.nwm-mobile[data-device='ios'] .nwm-mrows li + li .nwm-mrow::before,
+.nwm-mobile[data-device='ios'] .nwm-mnotes li + li .nwm-mnote::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 3.1875rem;
+  height: 1px;
+  background: var(--nwm-hairline);
+}
+
+.nwm-mobile[data-device='ios'] .nwm-mnotes li + li .nwm-mnote::before {
+  left: 1rem;
+}
+
+.nwm-mobile[data-device='ios'] :is(.nwm-mrow, .nwm-mnote)[aria-current='true'] {
+  background: var(--accent-soft);
+}
+
+.nwm-mobile[data-device='android'] .nwm-mrows {
+  padding: 0 0.75rem;
+}
+
+.nwm-mobile[data-device='android'] .nwm-mrow {
+  grid-template-columns: 1.5rem minmax(0, 1fr) auto;
+  gap: 0.875rem;
+  min-height: 3.25rem;
+  padding: 0 1.25rem 0 1rem;
+  border-radius: 999px;
+}
+
+.nwm-mobile[data-device='android'] .nwm-mrow-icon {
+  color: var(--muted);
+}
+
+.nwm-mobile[data-device='android'] .nwm-mrow[aria-current='true'] {
+  background: var(--accent-soft);
+  font-weight: 600;
+}
+
+.nwm-mobile[data-device='android'] .nwm-mrow[aria-current='true'] .nwm-mrow-icon {
+  color: var(--accent);
+}
+
+.nwm-mobile[data-device='android'] .nwm-msection {
+  margin: 1rem 1.75rem 0.25rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+/* Note rows. iOS follows Notes: title, then time and first line together.
+   Android uses a three-line list item with the time trailing the title. */
+
+.nwm-mnote {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'title title star'
+    'time snippet snippet'
+    'notebook notebook notebook';
+  column-gap: 0.5rem;
+  row-gap: 0.125rem;
+  width: 100%;
+  padding: 0.625rem 1rem;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+
+.nwm-mnote-title {
+  grid-area: title;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.9375rem;
+  font-weight: 650;
+}
+
+.nwm-mnote-title.is-untitled {
+  color: var(--muted);
+}
+
+.nwm-mnote-star {
+  grid-area: star;
+  display: inline-flex;
+  align-self: center;
+  color: var(--accent);
+}
+
+.nwm-mnote-time {
+  grid-area: time;
+  font-size: 0.8125rem;
+  color: var(--fg);
+  white-space: nowrap;
+}
+
+.nwm-mnote-snippet {
+  grid-area: snippet;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  color: var(--muted);
+}
+
+.nwm-mnote-notebook {
+  grid-area: notebook;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.125rem;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.nwm-mobile[data-device='android'] .nwm-mnote {
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-areas:
+    'title star time'
+    'snippet snippet snippet'
+    'notebook notebook notebook';
+  row-gap: 0.1875rem;
+  padding: 0.75rem 1.5rem;
+}
+
+.nwm-mobile[data-device='android'] .nwm-mnote-title {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.nwm-mobile[data-device='android'] .nwm-mnote-time {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.nwm-mobile[data-device='android'] .nwm-mnote-snippet {
+  font-size: 0.875rem;
+}
+
+.nwm-mobile[data-device='android'] .nwm-mnote[aria-current='true'] {
+  background: var(--accent-soft);
+}
+
+@media (hover: hover) {
+  .nwm-mrow:not([aria-current='true']):hover,
+  .nwm-mnote:not([aria-current='true']):hover {
+    background: var(--nwm-hover);
+  }
+}
+
+.nwm-mobile .nwm-empty {
+  padding: var(--space-6) var(--space-3);
+}
+
+/* Note screen */
+
+.nwm-mscroll--note {
+  padding: 0.5rem 1.375rem 1.5rem;
+}
+
+.nwm-fields--mobile .nwm-title-input {
+  font-size: 1.5625rem;
+}
+
+.nwm-fields--mobile .nwm-fields-meta {
+  margin: 0.375rem 0 1rem;
+}
+
+.nwm-fields--mobile .nwm-body-input {
+  min-height: 12rem;
+  font-size: 1rem;
+  line-height: 1.65;
+}

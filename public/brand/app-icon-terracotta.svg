@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-labelledby="title">
+  <title id="title">NoteWren app icon: terracotta background, white wren</title>
+  <rect width="256" height="256" rx="56" ry="56" fill="#d96545"/>
+  <g fill="#ffffff" transform="translate(32 40.3478) scale(0.834783)">
+    <path d="M 103 172 L 124 172 L 128 182 L 110 182 Z"/>
+    <path d="M 12.7 20.9 L 27.5 12.6 Q 31.5 10.4 33.5 14.4 L 57.1 61.9 Q 59.1 66 55.2 68.2 L 45.6 73.5 Q 41.7 75.7 39.3 71.9 L 11.2 26.9 Q 8.8 23.1 12.7 20.9 Z"/>
+    <path d="M 49.6 92.7 A 13 13 0 1 0 75.6 92.7 A 13 13 0 1 0 49.6 92.7 Z"/>
+    <path d="M 37 150 C 52 134 77 112 105 92 C 124 78 140 66 155 64 C 168 61 179 65 187 71 L 209 72 L 191 85 C 187 105 178 125 166 143 C 150 163 126 174 103 175 C 81 176 58 168 37 150 Z M 166.3 77 A 3.7 3.7 0 1 0 173.7 77 A 3.7 3.7 0 1 0 166.3 77 Z M 71 149 C 96 126 122 112 151 102 C 145 126 131 145 110 153 C 96 158 82 156 71 149 Z" fill-rule="evenodd" clip-rule="evenodd"/>
+  </g>
+</svg>

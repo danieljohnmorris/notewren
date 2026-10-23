@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 230 210" width="230" height="210" role="img" aria-labelledby="title">
+  <title id="title">NoteWren logo: solid geometric wren silhouette with open eye</title>
+  <g fill="#ffffff">
+    <path d="M 103 172 L 124 172 L 128 182 L 110 182 Z"/>
+    <path d="M 12.7 20.9 L 27.5 12.6 Q 31.5 10.4 33.5 14.4 L 57.1 61.9 Q 59.1 66 55.2 68.2 L 45.6 73.5 Q 41.7 75.7 39.3 71.9 L 11.2 26.9 Q 8.8 23.1 12.7 20.9 Z"/>
+    <path d="M 49.6 92.7 A 13 13 0 1 0 75.6 92.7 A 13 13 0 1 0 49.6 92.7 Z"/>
+    <path d="M 37 150 C 52 134 77 112 105 92 C 124 78 140 66 155 64 C 168 61 179 65 187 71 L 209 72 L 191 85 C 187 105 178 125 166 143 C 150 163 126 174 103 175 C 81 176 58 168 37 150 Z M 166.3 77 A 3.7 3.7 0 1 0 173.7 77 A 3.7 3.7 0 1 0 166.3 77 Z" fill-rule="evenodd" clip-rule="evenodd"/>
+  </g>
+</svg>

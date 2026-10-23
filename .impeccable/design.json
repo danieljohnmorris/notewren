@@ -1,0 +1,989 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-23T11:15:09Z",
+  "title": "Design System: NoteWren",
+  "extensions": {
+    "colorMeta": {
+      "cream": {
+        "role": "neutral",
+        "displayName": "Cream",
+        "canonical": "#f9f2e6",
+        "tonalRamp": [
+          "#0f0a04",
+          "#29241b",
+          "#474138",
+          "#666056",
+          "#888177",
+          "#aba499",
+          "#cfc8bd",
+          "#f5eee2"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#171717",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "terracotta": {
+        "role": "secondary",
+        "displayName": "Terracotta",
+        "canonical": "#d96545",
+        "tonalRamp": [
+          "#1c0200",
+          "#470e01",
+          "#771e01",
+          "#a63614",
+          "#cd5a3a",
+          "#f57e5d",
+          "#feb4a0",
+          "#ffe9e3"
+        ]
+      },
+      "moss": {
+        "role": "secondary",
+        "displayName": "Moss",
+        "canonical": "#657a64",
+        "tonalRamp": [
+          "#020f02",
+          "#182a18",
+          "#354834",
+          "#536852",
+          "#748973",
+          "#96ac95",
+          "#bad1b8",
+          "#dff6dd"
+        ]
+      },
+      "blue": {
+        "role": "secondary",
+        "displayName": "Slate blue",
+        "canonical": "#4f6d85",
+        "tonalRamp": [
+          "#000c19",
+          "#0a273c",
+          "#28455b",
+          "#47657d",
+          "#68869f",
+          "#8aa9c3",
+          "#adcee9",
+          "#e0f1ff"
+        ]
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Canvas",
+        "canonical": "#f9f6f0",
+        "tonalRamp": [
+          "#0d0b07",
+          "#272520",
+          "#44423d",
+          "#63615c",
+          "#85827d",
+          "#a7a59f",
+          "#ccc9c3",
+          "#f1eee8"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "#fffcf7",
+        "tonalRamp": [
+          "#0d0b08",
+          "#272521",
+          "#44423e",
+          "#63615d",
+          "#85827d",
+          "#a7a5a0",
+          "#ccc9c4",
+          "#f1eee9"
+        ]
+      },
+      "surface-raised": {
+        "role": "neutral",
+        "displayName": "Raised",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "surface-sunken": {
+        "role": "neutral",
+        "displayName": "Sunken",
+        "canonical": "#f0ece4",
+        "tonalRamp": [
+          "#0d0b06",
+          "#28251f",
+          "#45423b",
+          "#64615a",
+          "#85827b",
+          "#a8a59d",
+          "#cdc9c1",
+          "#f2eee6"
+        ]
+      },
+      "fg": {
+        "role": "neutral",
+        "displayName": "Text",
+        "canonical": "#242522",
+        "tonalRamp": [
+          "#0b0c09",
+          "#242522",
+          "#41423f",
+          "#61625e",
+          "#82837f",
+          "#a4a6a2",
+          "#c8cac6",
+          "#eeefeb"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "canonical": "#62645b",
+        "tonalRamp": [
+          "#0b0c06",
+          "#24261e",
+          "#41433b",
+          "#606259",
+          "#81847a",
+          "#a4a69c",
+          "#c8cac0",
+          "#edf0e5"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Border",
+        "canonical": "#dedbd3",
+        "tonalRamp": [
+          "#0d0b06",
+          "#27251f",
+          "#44423b",
+          "#64615a",
+          "#85827b",
+          "#a8a59d",
+          "#ccc9c1",
+          "#f1eee6"
+        ]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Clay action",
+        "canonical": "#a64028",
+        "tonalRamp": [
+          "#1d0200",
+          "#480b00",
+          "#781b02",
+          "#a13b23",
+          "#c85e45",
+          "#ef8267",
+          "#ffb4a1",
+          "#ffe9e4"
+        ]
+      },
+      "accent-hover": {
+        "role": "primary",
+        "displayName": "Clay hover",
+        "canonical": "#8c3420",
+        "tonalRamp": [
+          "#1d0200",
+          "#490a00",
+          "#761f0a",
+          "#9b422d",
+          "#c1644e",
+          "#e88770",
+          "#ffb4a2",
+          "#ffe9e4"
+        ]
+      },
+      "accent-soft": {
+        "role": "primary",
+        "displayName": "Clay wash",
+        "canonical": "#f8e8df",
+        "tonalRamp": [
+          "#120904",
+          "#2e221c",
+          "#4c3f38",
+          "#6c5e56",
+          "#8d7f77",
+          "#b1a299",
+          "#d5c6bd",
+          "#fbebe2"
+        ]
+      },
+      "on-accent": {
+        "role": "primary",
+        "displayName": "On clay",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "success": {
+        "role": "tertiary",
+        "displayName": "Success",
+        "canonical": "#456343",
+        "tonalRamp": [
+          "#001000",
+          "#102c0f",
+          "#2d4a2c",
+          "#4c6a4a",
+          "#6d8c6a",
+          "#8fb08c",
+          "#b2d4b0",
+          "#d7fad4"
+        ]
+      },
+      "success-soft": {
+        "role": "tertiary",
+        "displayName": "Success wash",
+        "canonical": "#e9efe5",
+        "tonalRamp": [
+          "#090d07",
+          "#22271f",
+          "#3f443c",
+          "#5e635b",
+          "#7f847b",
+          "#a1a79e",
+          "#c5cbc2",
+          "#ebf1e7"
+        ]
+      },
+      "warning": {
+        "role": "tertiary",
+        "displayName": "Warning",
+        "canonical": "#80530e",
+        "tonalRamp": [
+          "#140800",
+          "#361f00",
+          "#5d3900",
+          "#845613",
+          "#a7783b",
+          "#cc9b5e",
+          "#f2bf81",
+          "#ffebd4"
+        ]
+      },
+      "warning-soft": {
+        "role": "tertiary",
+        "displayName": "Warning wash",
+        "canonical": "#f8edcf",
+        "tonalRamp": [
+          "#100a00",
+          "#2d240b",
+          "#4a4128",
+          "#6a6146",
+          "#8c8266",
+          "#afa488",
+          "#d3c9ab",
+          "#f9eed0"
+        ]
+      },
+      "error": {
+        "role": "tertiary",
+        "displayName": "Error",
+        "canonical": "#a33435",
+        "tonalRamp": [
+          "#1f0001",
+          "#4c0108",
+          "#7e0917",
+          "#a43536",
+          "#cb5956",
+          "#f37c77",
+          "#ffb2ad",
+          "#ffe9e7"
+        ]
+      },
+      "error-soft": {
+        "role": "tertiary",
+        "displayName": "Error wash",
+        "canonical": "#fbe8e5",
+        "tonalRamp": [
+          "#130806",
+          "#2f211f",
+          "#4d3e3c",
+          "#6d5d5a",
+          "#8f7e7b",
+          "#b2a09e",
+          "#d7c4c1",
+          "#fdeae7"
+        ]
+      },
+      "focus": {
+        "role": "neutral",
+        "displayName": "Focus",
+        "canonical": "#985039",
+        "tonalRamp": [
+          "#1b0300",
+          "#451000",
+          "#6e2a13",
+          "#914a33",
+          "#b66b54",
+          "#dd8e75",
+          "#ffb49d",
+          "#ffe9e2"
+        ]
+      },
+      "selection": {
+        "role": "neutral",
+        "displayName": "Selection",
+        "canonical": "#edd0ba",
+        "tonalRamp": [
+          "#160700",
+          "#351f0d",
+          "#543c2a",
+          "#745b48",
+          "#977c68",
+          "#bb9f8a",
+          "#e0c3ad",
+          "#ffeadb"
+        ]
+      },
+      "bg-dark": {
+        "role": "neutral",
+        "displayName": "Canvas (dark)",
+        "canonical": "#20231f",
+        "tonalRamp": [
+          "#090c09",
+          "#232622",
+          "#40433f",
+          "#5f625e",
+          "#80847f",
+          "#a2a6a1",
+          "#c6cac5",
+          "#ecf0ea"
+        ]
+      },
+      "surface-dark": {
+        "role": "neutral",
+        "displayName": "Surface (dark)",
+        "canonical": "#282c26",
+        "tonalRamp": [
+          "#090c07",
+          "#232621",
+          "#3f443d",
+          "#5e635c",
+          "#7f847d",
+          "#a2a79f",
+          "#c6cbc3",
+          "#ebf0e8"
+        ]
+      },
+      "surface-raised-dark": {
+        "role": "neutral",
+        "displayName": "Raised (dark)",
+        "canonical": "#30352d",
+        "tonalRamp": [
+          "#090d06",
+          "#22271f",
+          "#3f443c",
+          "#5e635a",
+          "#7f847b",
+          "#a1a79e",
+          "#c5cbc1",
+          "#eaf1e6"
+        ]
+      },
+      "surface-sunken-dark": {
+        "role": "neutral",
+        "displayName": "Sunken (dark)",
+        "canonical": "#1b1e1a",
+        "tonalRamp": [
+          "#090c09",
+          "#232622",
+          "#40433f",
+          "#5f625e",
+          "#80847e",
+          "#a2a6a1",
+          "#c6cac5",
+          "#ecf0ea"
+        ]
+      },
+      "fg-dark": {
+        "role": "neutral",
+        "displayName": "Text (dark)",
+        "canonical": "#f3f0e7",
+        "tonalRamp": [
+          "#0d0b06",
+          "#27251e",
+          "#44423b",
+          "#646159",
+          "#85827a",
+          "#a8a59c",
+          "#ccc9c0",
+          "#f1eee5"
+        ]
+      },
+      "muted-dark": {
+        "role": "neutral",
+        "displayName": "Muted (dark)",
+        "canonical": "#b6b9ad",
+        "tonalRamp": [
+          "#0a0c05",
+          "#24261d",
+          "#414339",
+          "#606358",
+          "#818479",
+          "#a4a79b",
+          "#c8cbbf",
+          "#edf0e4"
+        ]
+      },
+      "border-dark": {
+        "role": "neutral",
+        "displayName": "Border (dark)",
+        "canonical": "#484f42",
+        "tonalRamp": [
+          "#080d04",
+          "#21271c",
+          "#3e4538",
+          "#5d6457",
+          "#7e8577",
+          "#a0a899",
+          "#c4ccbd",
+          "#e9f2e2"
+        ]
+      },
+      "accent-dark": {
+        "role": "primary",
+        "displayName": "Clay action (dark)",
+        "canonical": "#f0a084",
+        "tonalRamp": [
+          "#1b0300",
+          "#441201",
+          "#6e2a0f",
+          "#924a31",
+          "#b76c51",
+          "#dd8e73",
+          "#feb59c",
+          "#ffe9e2"
+        ]
+      },
+      "accent-hover-dark": {
+        "role": "primary",
+        "displayName": "Clay hover (dark)",
+        "canonical": "#ffc0a8",
+        "tonalRamp": [
+          "#1a0400",
+          "#431300",
+          "#65321d",
+          "#87513c",
+          "#ab725c",
+          "#d1957e",
+          "#f7b9a1",
+          "#ffe9e1"
+        ]
+      },
+      "accent-soft-dark": {
+        "role": "primary",
+        "displayName": "Clay wash (dark)",
+        "canonical": "#493229",
+        "tonalRamp": [
+          "#180601",
+          "#341f16",
+          "#533c32",
+          "#745b51",
+          "#967c71",
+          "#ba9e93",
+          "#dfc2b7",
+          "#ffe9e1"
+        ]
+      },
+      "on-accent-dark": {
+        "role": "primary",
+        "displayName": "On clay (dark)",
+        "canonical": "#2c1c16",
+        "tonalRamp": [
+          "#150703",
+          "#31211a",
+          "#4f3d37",
+          "#705c55",
+          "#927d76",
+          "#b5a098",
+          "#dac4bb",
+          "#ffe9e1"
+        ]
+      },
+      "success-dark": {
+        "role": "tertiary",
+        "displayName": "Success (dark)",
+        "canonical": "#b2cba2",
+        "tonalRamp": [
+          "#040f00",
+          "#182b08",
+          "#344926",
+          "#536944",
+          "#748b64",
+          "#96ae86",
+          "#b9d3a9",
+          "#def8ce"
+        ]
+      },
+      "success-soft-dark": {
+        "role": "tertiary",
+        "displayName": "Success wash (dark)",
+        "canonical": "#2d3a27",
+        "tonalRamp": [
+          "#050e02",
+          "#1d2917",
+          "#394733",
+          "#586652",
+          "#798872",
+          "#9bab94",
+          "#bfcfb8",
+          "#e4f5dc"
+        ]
+      },
+      "warning-dark": {
+        "role": "tertiary",
+        "displayName": "Warning (dark)",
+        "canonical": "#e5c27e",
+        "tonalRamp": [
+          "#120a00",
+          "#312201",
+          "#553d02",
+          "#7b5b10",
+          "#9e7d39",
+          "#c2a05c",
+          "#e7c480",
+          "#ffecc9"
+        ]
+      },
+      "warning-soft-dark": {
+        "role": "tertiary",
+        "displayName": "Warning wash (dark)",
+        "canonical": "#413721",
+        "tonalRamp": [
+          "#110a00",
+          "#2d240e",
+          "#4b412a",
+          "#6b6049",
+          "#8c8169",
+          "#b0a48b",
+          "#d4c8ae",
+          "#faedd2"
+        ]
+      },
+      "error-dark": {
+        "role": "tertiary",
+        "displayName": "Error (dark)",
+        "canonical": "#f5aba4",
+        "tonalRamp": [
+          "#1f0001",
+          "#470c0d",
+          "#692c29",
+          "#8d4c47",
+          "#b16d67",
+          "#d78f89",
+          "#feb3ac",
+          "#ffe9e6"
+        ]
+      },
+      "error-soft-dark": {
+        "role": "tertiary",
+        "displayName": "Error wash (dark)",
+        "canonical": "#4a2d29",
+        "tonalRamp": [
+          "#1a0403",
+          "#381c19",
+          "#573935",
+          "#785853",
+          "#9b7974",
+          "#bf9b96",
+          "#e5bfb9",
+          "#ffe9e5"
+        ]
+      },
+      "focus-dark": {
+        "role": "neutral",
+        "displayName": "Focus (dark)",
+        "canonical": "#f0a084",
+        "tonalRamp": [
+          "#1b0300",
+          "#441201",
+          "#6e2a0f",
+          "#924a31",
+          "#b76c51",
+          "#dd8e73",
+          "#feb59c",
+          "#ffe9e2"
+        ]
+      },
+      "selection-dark": {
+        "role": "neutral",
+        "displayName": "Selection (dark)",
+        "canonical": "#73503d",
+        "tonalRamp": [
+          "#180500",
+          "#3a1c09",
+          "#5a3926",
+          "#7c5845",
+          "#9e7965",
+          "#c39b86",
+          "#e8bfaa",
+          "#ffeadf"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Page headings on the reference site."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings within a page."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Mockup list headings and the mockup wordmark."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Interface default text, paragraphs held to 65ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons, field labels, segmented options and reference nav links."
+      },
+      "overline": {
+        "displayName": "Overline",
+        "purpose": "Uppercase notebook heading in the mockup sidebar."
+      },
+      "wordmark": {
+        "displayName": "Wordmark",
+        "purpose": "\"NoteWren\" beside the wren; size set per placement."
+      },
+      "prose-title": {
+        "displayName": "Prose title",
+        "purpose": "Note titles on the writing page."
+      },
+      "prose-body": {
+        "displayName": "Prose body",
+        "purpose": "Note bodies on the writing page and the prose specimen."
+      },
+      "code": {
+        "displayName": "Code",
+        "purpose": "code and kbd elements, and the Omarchy status bar."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-window",
+        "value": "0 16px 48px -20px #30271938, 0 3px 8px -4px #30271920",
+        "purpose": "The only elevation token. Floating frames: macOS window, Omarchy frame, phones, toast."
+      },
+      {
+        "name": "shadow-window-dark",
+        "value": "0 16px 48px -20px #0009, 0 3px 8px -4px #0008",
+        "purpose": "Dark theme value of --shadow-window."
+      },
+      {
+        "name": "segment-pressed",
+        "value": "0 2px 4px -3px #0003",
+        "purpose": "Faint drop under the pressed segmented option."
+      },
+      {
+        "name": "search-focus-halo",
+        "value": "0 0 0 3px var(--accent-soft)",
+        "purpose": "Clay wash halo on the focused desktop mockup search field."
+      },
+      {
+        "name": "phone-note-edge",
+        "value": "-12px 0 28px -16px rgb(0 0 0 / 0.35)",
+        "purpose": "Left edge shadow on the phone note as it slides over the library."
+      },
+      {
+        "name": "mobile-bar-blur",
+        "value": "backdrop-filter: blur(10px) over color-mix(in oklab, var(--surface-raised) 92%, transparent)",
+        "purpose": "Phone bottom bar over scrolling content."
+      }
+    ],
+    "motion": [
+      {
+        "name": "duration-fast",
+        "value": "140ms",
+        "purpose": "Control feedback: button fills, switch thumb, row hover, search focus."
+      },
+      {
+        "name": "duration-normal",
+        "value": "220ms",
+        "purpose": "View changes, including the toast arrival."
+      },
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Default easing for movement."
+      },
+      {
+        "name": "nwm-slide",
+        "value": "calc(var(--duration-normal) * 1.5)",
+        "purpose": "Phone note sliding over the library (330ms)."
+      },
+      {
+        "name": "arrive",
+        "value": "translateY(8px) and clip-path inset(8px 0 0) to rest, var(--duration-normal) var(--ease-out)",
+        "purpose": "Toast entrance."
+      },
+      {
+        "name": "spin",
+        "value": "rotate(360deg), 1s linear infinite",
+        "purpose": "Loading button spinner."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "--duration-fast: 0ms; --duration-normal: 0ms",
+        "purpose": "Applied under prefers-reduced-motion: reduce; animations and transitions are switched off."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "wide",
+        "value": "min-width: 1600px"
+      },
+      {
+        "name": "laptop",
+        "value": "max-width: 1190px"
+      },
+      {
+        "name": "tablet",
+        "value": "max-width: 900px"
+      },
+      {
+        "name": "phone",
+        "value": "max-width: 600px"
+      },
+      {
+        "name": "nwm-desktop-rail",
+        "value": "@container nwm-desktop (max-width: 900px)"
+      },
+      {
+        "name": "nwm-desktop-single-pane",
+        "value": "@container nwm-desktop (max-width: 600px)"
+      },
+      {
+        "name": "nwm-desktop-compact-bar",
+        "value": "@container nwm-desktop (max-width: 440px)"
+      },
+      {
+        "name": "two-phones",
+        "value": "700px mockup width, measured with ResizeObserver"
+      }
+    ],
+    "frameVars": [
+      {
+        "name": "--nwm-frame-bg",
+        "default": "#1c1d1f",
+        "purpose": "Omarchy frame and waybar background."
+      },
+      {
+        "name": "--nwm-frame-fg",
+        "default": "#d9d5cc",
+        "purpose": "Omarchy frame text and window title."
+      },
+      {
+        "name": "--nwm-frame-muted",
+        "default": "#8e8b84",
+        "purpose": "Inactive workspaces and example status items."
+      },
+      {
+        "name": "--nwm-frame-accent",
+        "default": "var(--terracotta)",
+        "purpose": "Active workspace and active window border."
+      },
+      {
+        "name": "--nwm-frame-on-accent",
+        "default": "#1c1d1f",
+        "purpose": "Text on the active workspace."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Clay action fill for the one main action in a task.",
+      "html": "<button type=\"button\" class=\"ds-btn ds-btn-primary\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/><path d=\"M12 5v14\"/></svg>Add a note</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border: 1px solid transparent; border-radius: var(--radius-sm); padding: 10px 17px; font-family: var(--font-ui); font-size: 12px; font-weight: 650; line-height: 1.4; cursor: pointer; transition: background var(--duration-fast), border-color var(--duration-fast); } .ds-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; } .ds-btn:disabled { opacity: .5; cursor: not-allowed; } .ds-btn-primary { background: var(--accent); color: var(--on-accent); } .ds-btn-primary:hover { background: var(--accent-hover); }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Raised surface with a border stroke for supporting actions.",
+      "html": "<button type=\"button\" class=\"ds-btn ds-btn-secondary\">Rename notebook</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border: 1px solid transparent; border-radius: var(--radius-sm); padding: 10px 17px; font-family: var(--font-ui); font-size: 12px; font-weight: 650; line-height: 1.4; cursor: pointer; transition: background var(--duration-fast), border-color var(--duration-fast); } .ds-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; } .ds-btn:disabled { opacity: .5; cursor: not-allowed; } .ds-btn-secondary { background: var(--surface-raised); color: var(--fg); border-color: var(--border); } .ds-btn-secondary:hover { background: var(--surface-sunken); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Transparent with muted text for low-emphasis actions.",
+      "html": "<button type=\"button\" class=\"ds-btn ds-btn-ghost\">Cancel</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border: 1px solid transparent; border-radius: var(--radius-sm); padding: 10px 17px; font-family: var(--font-ui); font-size: 12px; font-weight: 650; line-height: 1.4; cursor: pointer; transition: background var(--duration-fast), border-color var(--duration-fast); } .ds-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; } .ds-btn:disabled { opacity: .5; cursor: not-allowed; } .ds-btn-ghost { background: transparent; color: var(--muted); } .ds-btn-ghost:hover { background: var(--surface-sunken); }"
+    },
+    {
+      "name": "Danger Button",
+      "kind": "button",
+      "refersTo": "button-danger",
+      "description": "Error-soft fill with error text and border for destructive actions.",
+      "html": "<button type=\"button\" class=\"ds-btn ds-btn-danger\">Delete note</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; border: 1px solid transparent; border-radius: var(--radius-sm); padding: 10px 17px; font-family: var(--font-ui); font-size: 12px; font-weight: 650; line-height: 1.4; cursor: pointer; transition: background var(--duration-fast), border-color var(--duration-fast); } .ds-btn:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; } .ds-btn:disabled { opacity: .5; cursor: not-allowed; } .ds-btn-danger { background: var(--error-soft); color: var(--error); border-color: var(--error); } .ds-btn-danger:hover { background: var(--surface-sunken); }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "field-input",
+      "description": "Labelled input with a hint below; the error message replaces the hint.",
+      "html": "<div class=\"ds-field\"><label for=\"ds-nb\">Notebook name</label><input id=\"ds-nb\" value=\"Ideas\" aria-describedby=\"ds-nb-hint\"><span id=\"ds-nb-hint\" class=\"ds-field-hint\">Up to 48 characters. Stored for this preview only.</span></div>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 8px; font-family: var(--font-ui); color: var(--fg); } .ds-field label { font-size: 12px; font-weight: 650; } .ds-field input { min-height: 44px; background: var(--surface-raised); color: var(--fg); border: 1px solid var(--border); border-radius: 6px; padding: 11px 13px; width: 100%; font: inherit; font-size: 13px; caret-color: var(--accent); } .ds-field input:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; } .ds-field input[aria-invalid=\"true\"] { border-color: var(--error); } .ds-field-hint { font-size: 11px; color: var(--muted); } .ds-field-error { font-size: 11px; color: var(--error); }"
+    },
+    {
+      "name": "Switch",
+      "kind": "custom",
+      "refersTo": "switch",
+      "description": "role=\"switch\" button for immediate, reversible preferences.",
+      "html": "<button type=\"button\" class=\"ds-switch\" role=\"switch\" aria-checked=\"true\" aria-label=\"Check spelling\"><span><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M20 6 9 17l-5-5\"/></svg></span></button>",
+      "css": ".ds-switch { position: relative; width: 44px; height: 28px; padding: 3px; border-radius: 20px; border: 1px solid var(--border); background: var(--surface-sunken); cursor: pointer; } .ds-switch::before { content: \"\"; position: absolute; inset: -9px 0; } .ds-switch > span { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; background: var(--muted); color: var(--on-accent); transition: transform var(--duration-fast) var(--ease-out); } .ds-switch[aria-checked=\"false\"] > span > svg { visibility: hidden; } .ds-switch[aria-checked=\"true\"] { background: var(--accent); border-color: var(--accent); } .ds-switch[aria-checked=\"true\"] > span { transform: translateX(15px); background: var(--on-accent); color: var(--accent); } .ds-switch:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }"
+    },
+    {
+      "name": "Status Badges",
+      "kind": "chip",
+      "refersTo": "badge-neutral",
+      "description": "Document states, always labelled in words with colour as reinforcement.",
+      "html": "<div class=\"ds-badges\"><span class=\"ds-badge\">Offline</span><span class=\"ds-badge ds-badge-warning\">Pending changes</span><span class=\"ds-badge ds-badge-error\">Conflict</span><span class=\"ds-badge ds-badge-success\">Up to date</span></div>",
+      "css": ".ds-badges { display: flex; flex-wrap: wrap; gap: 8px; } .ds-badge { display: inline-flex; align-items: center; gap: 6px; background: var(--surface-sunken); color: var(--muted); padding: 5px 9px; border-radius: 5px; font-family: var(--font-ui); font-size: 10px; font-weight: 650; white-space: nowrap; } .ds-badge-success { background: var(--success-soft); color: var(--success); } .ds-badge-warning { background: var(--warning-soft); color: var(--warning); } .ds-badge-error { background: var(--error-soft); color: var(--error); }"
+    },
+    {
+      "name": "Segmented Control",
+      "kind": "nav",
+      "refersTo": "segmented-option",
+      "description": "Platform, device and logo variant switch; the pressed option is raised.",
+      "html": "<div class=\"ds-segmented\" role=\"group\" aria-label=\"Preview platform\"><button type=\"button\" aria-pressed=\"true\">macOS</button><button type=\"button\" aria-pressed=\"false\">Omarchy</button><button type=\"button\" aria-pressed=\"false\">Mobile</button></div>",
+      "css": ".ds-segmented { display: inline-flex; gap: 4px; padding: 4px; border: 1px solid var(--border); border-radius: 10px; background: var(--surface-sunken); } .ds-segmented button { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 38px; padding: 8px 15px; border: 1px solid transparent; border-radius: 6px; background: transparent; color: var(--muted); font-family: var(--font-ui); font-size: 12px; font-weight: 650; cursor: pointer; transition: background var(--duration-fast); } .ds-segmented button:hover { color: var(--fg); } .ds-segmented button[aria-pressed=\"true\"] { background: var(--surface-raised); border-color: var(--border); color: var(--fg); box-shadow: 0 2px 4px -3px #0003; } .ds-segmented button:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }"
+    },
+    {
+      "name": "Note Row",
+      "kind": "card",
+      "refersTo": "note-row",
+      "description": "The repeated note list item in the mockups; selected rows get clay wash and a clay border at 45%.",
+      "html": "<div class=\"ds-note-list\"><button type=\"button\" class=\"ds-note\" aria-current=\"true\"><span class=\"ds-note-head\"><span class=\"ds-note-title\">Garden plan</span><span class=\"ds-note-star\"><svg width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\"/></svg></span></span><span class=\"ds-note-snippet\">Move the rosemary to the sunny bed and order seed potatoes before the end of the month.</span><span class=\"ds-note-meta\">Home · Today</span></button><button type=\"button\" class=\"ds-note\"><span class=\"ds-note-head\"><span class=\"ds-note-title is-untitled\">Untitled note</span></span><span class=\"ds-note-snippet\">A line to come back to.</span><span class=\"ds-note-meta\">Ideas · Yesterday</span></button></div>",
+      "css": ".ds-note-list { display: grid; gap: 2px; max-width: 300px; font-family: var(--font-ui); color: var(--fg); } .ds-note { display: grid; gap: 0.25rem; width: 100%; padding: 0.625rem 0.75rem; border: 1px solid transparent; border-radius: var(--radius-md); background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; transition: background-color var(--duration-fast), border-color var(--duration-fast); } .ds-note:hover { background: color-mix(in oklab, var(--fg) 5%, transparent); } .ds-note[aria-current=\"true\"] { border-color: color-mix(in oklab, var(--accent) 45%, transparent); background: var(--accent-soft); } .ds-note:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; } .ds-note-head { display: flex; align-items: center; gap: 0.375rem; min-width: 0; } .ds-note-title { flex: 1; min-width: 0; overflow: hidden; font-size: var(--text-sm); font-weight: 750; letter-spacing: -0.005em; white-space: nowrap; text-overflow: ellipsis; } .ds-note-title.is-untitled { font-weight: 600; color: var(--muted); } .ds-note-star { flex: none; display: inline-flex; color: var(--accent); } .ds-note-snippet { display: -webkit-box; overflow: hidden; font-size: 0.78125rem; line-height: 1.45; color: var(--muted); -webkit-line-clamp: 2; -webkit-box-orient: vertical; } .ds-note-meta { display: flex; gap: 0.3rem; font-size: 0.71875rem; font-weight: 600; color: var(--muted); }"
+    },
+    {
+      "name": "Wren Mark",
+      "kind": "custom",
+      "refersTo": "logo",
+      "description": "Negative wren with real transparent wing and eye holes, filled with currentColor, beside the Manrope wordmark.",
+      "html": "<div class=\"ds-brand\"><svg viewBox=\"0 0 230 210\" width=\"70\" height=\"64\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M 103 172 L 124 172 L 128 182 L 110 182 Z\"/><path d=\"M 12.7 20.9 L 27.5 12.6 Q 31.5 10.4 33.5 14.4 L 57.1 61.9 Q 59.1 66 55.2 68.2 L 45.6 73.5 Q 41.7 75.7 39.3 71.9 L 11.2 26.9 Q 8.8 23.1 12.7 20.9 Z\"/><path d=\"M 49.6 92.7 A 13 13 0 1 0 75.6 92.7 A 13 13 0 1 0 49.6 92.7 Z\"/><path d=\"M 37 150 C 52 134 77 112 105 92 C 124 78 140 66 155 64 C 168 61 179 65 187 71 L 209 72 L 191 85 C 187 105 178 125 166 143 C 150 163 126 174 103 175 C 81 176 58 168 37 150 Z M 166.3 77 A 3.7 3.7 0 1 0 173.7 77 A 3.7 3.7 0 1 0 166.3 77 Z M 71 149 C 96 126 122 112 151 102 C 145 126 131 145 110 153 C 96 158 82 156 71 149 Z\" fill-rule=\"evenodd\" clip-rule=\"evenodd\"/></svg><span>NoteWren</span></div>",
+      "css": ".ds-brand { display: inline-flex; align-items: center; gap: 14px; padding: 24px 28px; border-radius: var(--radius-md); background: var(--cream); color: var(--ink); } .ds-brand span { font-family: var(--font-ui); font-size: 32px; font-weight: 800; letter-spacing: -0.045em; line-height: 1.2; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "A little room to think",
+    "overview": "NoteWren is a writing tool first, and the system is arranged so the words on the page stay central. Every control, label and heading is set in Manrope, a bold geometric sans. The note itself, its title and its body, is set in Source Serif 4. That split is the main expressive device: the interface speaks in one voice and the writing in another. Surfaces are warm paper neutrals separated by hairlines and small tonal steps. Colour is held back for actions, selection and status.\n\nThe identity sits alongside the interface. The supplied geometric wren, with its upright exclamation-mark tail and wing cutout, is drawn in ink on cream with terracotta as the identity accent, and moss and slate blue as secondary tiles. The wing and eye are true transparent holes in a compound path, so the bird works on any background. All shipped brand assets are SVG.\n\nDensity follows the platform. The reference site keeps its buttons, fields and section links at a 44px minimum height. The desktop mockups are deliberately compact, close to native macOS and tiled Linux sizing, so their icon buttons, search field and sidebar rows are smaller than 44px. This repository is a React 19 and TypeScript reference of tokens, components and mockups for a planned Tauri 2 app with a Rust core. Mockup notes are sample content held in memory for the session only: edits, new notes, theme and selection reset on reload. Storage, authentication and sync belong to the future native app and do not exist here.",
+    "keyCharacteristics": [
+      "Two typefaces with fixed jobs: Manrope for the interface, Source Serif 4 for the writing.",
+      "Warm off-white light theme and warm green-grey dark theme, swapped by role variables.",
+      "A deeper clay action colour, separate from the identity terracotta.",
+      "Flat chrome built from hairlines and tonal surfaces; one shadow token for floating frames.",
+      "Small radii on controls, pills for chips and mobile actions.",
+      "Status always shown with words as well as colour.",
+      "A wren mark with real negative space, inheriting `currentColor`."
+    ],
+    "rules": [
+      {
+        "name": "The Two Terracottas Rule",
+        "body": "Identity terracotta (#d96545) belongs to the mark, app tiles and the default Omarchy frame. Interactive elements use the clay action role, never the identity hex.",
+        "section": "colors"
+      },
+      {
+        "name": "The Theme Swap Rule",
+        "body": "Components reference role variables (`--accent`, `--surface`, `--fg`), never theme hexes. Setting `data-theme=\"dark\"` on the root element swaps the roles; identity colours stay fixed. The theme is chosen by the header toggle and is not read from the operating system preference.",
+        "section": "colors"
+      },
+      {
+        "name": "The OS Theme Rule",
+        "body": "On Omarchy, the app follows the desktop theme. A picker above the Omarchy mockup (\"OS theme\") offers NoteWren's own palette plus seven Omarchy palettes copied by hand from their `themes/<name>/colors.toml` files: Tokyo Night, Catppuccin, Gruvbox, Nord, Osaka Jade, Matte Black and Flexoki Light. `omarchyThemeStyle` in `src/components/omarchyThemes.ts` maps a palette onto the same role variables and the `--nwm-frame-*` variables as an inline style on `.nwm-omarchy`, so the waybar, active window border, list, editor and controls follow it with no component changes. Omarchy's `muted` is its divider colour and becomes `--border`; the palette accent becomes both `--accent` and `--focus`. The header light/dark toggle swaps roles for the whole page; the OS theme overrides them inside the Omarchy frame only, and \"NoteWren\" removes the override. This is a session-only preview of how a native Omarchy build would inherit the OS theme. That build would read the active theme's `colors.toml`; the mockup only simulates it with the copied list.",
+        "section": "colors"
+      },
+      {
+        "name": "The Words Not Colour Rule",
+        "body": "Every status carries a text label. Colour only reinforces it.",
+        "section": "colors"
+      },
+      {
+        "name": "The Two Voices Rule",
+        "body": "Manrope runs the interface. Source Serif 4 appears only for the writing: note titles and bodies on the page, and the prose specimen.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tight Headings Rule",
+        "body": "Manrope tightens as it grows: -1.55px at display, -0.6px at headline, -0.045em on the wordmark. Body and label text keep normal tracking. Uppercase is limited to small overlines.",
+        "section": "typography"
+      },
+      {
+        "name": "The Page Measure Rule",
+        "body": "The writing page never exceeds 42.5rem, or 46rem in focus mode.",
+        "section": "layout"
+      },
+      {
+        "name": "The One Shadow Rule",
+        "body": "Only floating frames get `--shadow-window`. Everything inside them sits on borders and tonal surfaces.",
+        "section": "elevation"
+      },
+      {
+        "name": "The Real Cutout Rule",
+        "body": "Wing and eye are holes in a compound path. Never paint a cream or white shape over the bird to fake them.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do use the clay action role (`--accent`, #a64028 light, #f0a084 dark) for every interactive accent, and keep identity terracotta (#d96545) for the mark, app tiles and the default Omarchy frame.",
+      "Do keep `.nwm-omarchy` and the waybar on the `--nwm-frame-*` variables so OS palettes can recolour them.",
+      "Do set note titles and bodies in Source Serif 4 and everything else in Manrope.",
+      "Do reference role variables so `data-theme=\"dark\"` swaps colours without component changes.",
+      "Do pair every status colour with a text label, as the Offline, Pending changes, Conflict and Up to date badges do.",
+      "Do keep one primary button per task, with a verb-led label.",
+      "Do separate regions with 1px hairlines and tonal surfaces, and reserve `--shadow-window` for floating frames.",
+      "Do keep the writing page within 42.5rem (46rem in focus mode).",
+      "Do use 140ms for control feedback and 220ms for view changes, with `--ease-out`, and honour reduced motion.",
+      "Do label anything in the mockups that could be mistaken for a working feature, such as the preview pill, the footnote and the \"example\" status items."
+    ],
+    "donts": [
+      "Don't put white text on identity terracotta for interface buttons; use the clay action colour.",
+      "Don't fake the wren's wing or eye with a painted cream or white shape; they are transparent holes.",
+      "Don't stretch, rotate, recolour in gradients or redraw the bird, and don't set it on detailed backgrounds.",
+      "Don't use Source Serif 4 for controls, labels or navigation.",
+      "Don't describe every control as having a 44px target or the system as WCAG compliant; desktop mockup controls are intentionally compact.",
+      "Don't imply that mockup content is stored or synced; it lives for the session only.",
+      "Don't animate the writing page while someone types."
+    ]
+  }
+}
