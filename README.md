@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/brand/app-icon-cream.svg" alt="NoteWren wren logo with an exclamation-mark tail" width="112" height="112">
+  <img src="public/brand/readme-banner.svg" alt="NoteWren. A little room to think." width="1000">
 </p>
 
 # NoteWren
