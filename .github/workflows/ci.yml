@@ -1,0 +1,129 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CARGO_TERM_COLOR: always
+  RUST_BACKTRACE: "1"
+  CI: "true"
+
+# Commit the workspace Cargo.lock and the npm workspace package-lock.json before
+# enabling this workflow. Missing or stale lockfiles must fail, never be regenerated
+# by CI. The integration owner maintains both root lockfiles.
+jobs:
+  frontend:
+    name: TypeScript frontends
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - name: Install locked npm workspaces
+        run: npm ci
+      # Name both workspaces explicitly so the root's reference-only scripts
+      # cannot accidentally omit the desktop frontend.
+      - name: Typecheck design reference
+        run: npm --workspace apps/design-reference run typecheck
+      - name: Typecheck desktop frontend
+        run: npm --workspace apps/desktop run typecheck
+      - name: Build design reference
+        run: npm --workspace apps/design-reference run build
+      - name: Build desktop frontend
+        run: npm --workspace apps/desktop run build
+
+  rust-linux:
+    name: Rust libraries and Linux server
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: linux-${{ hashFiles('Cargo.lock') }}
+      - name: Check workspace formatting
+        run: cargo fmt --all -- --check
+      # Native desktop compilation is covered by the macOS job. Linux desktop
+      # packaging (GTK/WebKit) and Windows desktop packaging are not covered.
+      - name: Check core, sync and server targets
+        run: cargo check --locked --workspace --exclude notewren-desktop --all-targets
+      - name: Lint core, sync and server targets
+        run: cargo clippy --locked --workspace --exclude notewren-desktop --all-targets -- -D warnings
+      # Includes server integration tests, including the real two-client sync
+      # scenarios. Do not narrow this to unit tests or a named test filter.
+      - name: Test core, sync and server
+        run: cargo test --locked --workspace --exclude notewren-desktop
+      - name: Build Linux server executable
+        run: cargo build --locked --release --package notewren-server --bin notewren-server
+      - name: Archive Linux executable with its permissions
+        run: tar -czf notewren-server-linux-x86_64.tar.gz -C target/release notewren-server
+      - name: Upload Linux server
+        uses: actions/upload-artifact@v4
+        with:
+          name: notewren-server-linux-x86_64
+          path: notewren-server-linux-x86_64.tar.gz
+          if-no-files-found: error
+          retention-days: 7
+
+  desktop-macos:
+    name: Rust workspace and macOS app
+    runs-on: macos-14
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: macos-${{ hashFiles('Cargo.lock') }}
+      - name: Install locked npm workspaces
+        run: npm ci
+      # Tauri's build context embeds frontendDist. Build it before invoking
+      # Cargo directly; cargo check/test do not run Tauri's beforeBuildCommand.
+      - name: Build desktop frontend
+        run: npm --workspace apps/desktop run build
+      - name: Check every Rust workspace target
+        run: cargo check --locked --workspace --all-targets
+      - name: Lint every Rust workspace target
+        run: cargo clippy --locked --workspace --all-targets -- -D warnings
+      - name: Test the Rust workspace
+        run: cargo test --locked --workspace
+      # tauri:build selects only the .app bundle. The native configuration uses
+      # signingIdentity "-" (ad-hoc signing), so no Apple certificate, Apple
+      # account, notarisation or updater-signing credentials are required.
+      # This builds for the runner's native architecture, not a universal app.
+      # It does not exercise the GUI or establish Windows/Linux desktop support.
+      - name: Build macOS app without distribution credentials
+        run: npm --workspace apps/desktop run tauri:build -- -- --locked
+      # Upload a tarball to preserve the .app's symlinks and executable modes.
+      - name: Archive macOS app
+        run: tar -czf notewren-macos.tar.gz -C target/release/bundle/macos NoteWren.app
+      - name: Upload macOS app
+        uses: actions/upload-artifact@v4
+        with:
+          name: notewren-macos
+          path: notewren-macos.tar.gz
+          if-no-files-found: error
+          retention-days: 7

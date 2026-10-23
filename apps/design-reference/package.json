@@ -1,0 +1,11 @@
+{
+  "name": "@notewren/design-reference",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite ../.. --config ../../vite.config.ts --host 127.0.0.1",
+    "build": "tsc --project ../../tsconfig.json && vite build ../.. --config ../../vite.config.ts",
+    "typecheck": "tsc --project ../../tsconfig.json --noEmit"
+  }
+}

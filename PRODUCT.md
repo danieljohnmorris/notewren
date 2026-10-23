@@ -8,21 +8,20 @@ web
 
 ## Stack
 
-React and TypeScript interface for a planned Tauri 2 app with a Rust core. This project currently delivers the design system and interactive platform mockups, not a native application.
-
+React and TypeScript design reference plus a Tauri 2 macOS app backed by a Rust core. The native app and local sync server are implemented for local development; the web reference remains illustrative.
 ## Users
 
 The owner wants one Markdown notes library available on macOS and Omarchy, with iPhone and Android clients later.
 
 ## Product Purpose
 
-An open-source Markdown notes app with offline access and a self-hosted document sync server.
+A free, open-source, local-first Markdown notes app with note branching and optional self-hosted sync. Users can customise the MIT-licensed code, own their data and run their own sync server. The intended experience is one notes library across devices, with a local database on each device for offline writing.
 
 ## Capabilities and Constraints
 
-The current deliverable is a reusable design system, genuine SVG assets and macOS, Omarchy and mobile mockups. Mockup notes are illustrative. Native storage, authentication and synchronisation are not implemented here. Future sync must preserve both versions of conflicting edits. Never share a live SQLite database file between devices.
+The current deliverable includes a reusable design system, genuine SVG assets, macOS mockups and a native macOS app with SQLite-backed local storage and branching. The local sync server supports authenticated self-hosted development. Mockup notes remain illustrative. Future sync must preserve both versions of conflicting edits. Never share a live SQLite database file between devices.
 
-Start local storage with standard SQLite through `rusqlite`. One Rust core owns note operations, SQL and migrations for the app, CLI and MCP. Store revisions and branch ancestry explicitly; keep synchronisation separate from the storage engine. Once the SQLite implementation works, evaluate the Turso Rust engine against a copy of the same library, checking content, branches, search, offline conflicts and recovery. Preserve the original library. This is an evaluation plan, not an assumption of drop-in compatibility.
+The Rust core owns note operations, SQL and migrations for the app, CLI and MCP. Store revisions and branch ancestry explicitly; keep synchronisation separate from the storage engine. Turso evaluation remains future work.
 
 Planned agent access uses a CLI and MCP interface over the same Rust core and local library as the graphical app. It must support offline note search, reading, creation and editing without a sync server. The intended executable ships with the desktop install and separately for headless use; MCP registration is opt-in. Neither interface is implemented yet.
 
@@ -32,11 +31,13 @@ One-click deployment of the optional sync server is planned. Evaluate Vercel or 
 
 Branching lets a writer explore another version of a note while keeping the original available. A Git-like graph shows where each branch started. The interaction separates the branch being inspected from the current writing branch. Continuing on another branch is an explicit choice.
 
-The current mockup covers branches of individual sample notes in memory. A new branch copies its parent's title and Markdown body, then keeps its own edits. Comparison uses the immutable title and body captured at the fork point, so later edits to the parent do not change that baseline. Branches can be named, inspected, renamed and archived or deleted where the controls allow. This scope is branching only. Merging is excluded.
+The web reference covers branches of individual sample notes in memory. The native app persists notes, revisions and per-note branches in SQLite. A new branch copies its parent's title and Markdown body, then keeps its own edits. Comparison uses the immutable fork snapshot. Branches can be named, inspected, renamed, archived, restored and deleted where the controls allow.
 
-The planned native product extends branching to a note or a whole notebook. Notebook-wide branches need transactions that keep the notebook's notes and branch state consistent; those transactions are future work. The per-note mockup does not implement them.
+The native app currently exposes Editor, Branches and History views. Inspecting a branch or revision does not change the current writing branch. Continuing on an inspected branch requires an explicit switch. Notebook-wide branches need transactions covering notebook membership and remain future work.
 
-Agent work is planned to run in a separate, named branch through the CLI or MCP interface. An agent must not overwrite the user's current writing branch. The user can inspect its changes and choose to continue writing there. The mockup's Agent label identifies sample authorship; it does not run an agent. Persistent branch storage, notebook-wide transactions and agent execution are not implemented.
+Agent work is planned to run in a separate, named branch through the CLI or MCP interface. The mockup's Agent label identifies sample authorship; it does not run an agent. CLI/MCP access and agent execution are not implemented yet.
+
+The [automatic branching and sync plan](docs/automatic-branching.md) specifies first-edit forks from older revisions, isolated agent edits and conflict recovery. Concurrent edits to the same branch should use deterministic three-way text merging when clean, retaining both input revisions. Conflicts preserve complete drafts on separate branches. Deliberate branches remain separate; a manual branch-merging interface is outside the current scope.
 
 ## Brand Commitments
 

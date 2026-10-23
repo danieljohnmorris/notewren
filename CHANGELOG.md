@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.0
+
+- Added a native macOS presentation with an overlay title bar, system traffic lights, compact controls and neutral system typography. The controls remain rendered by the Tauri webview.
+- Added explicit Editor, Branches and History navigation, a labelled New branch action and a native note-row context menu.
+- Added a read-only revision preview with persisted timestamps where available.
+- Moved save status and word count into a fixed bar beneath the editor, outside the scrolling document.
+- Added a self-hosted Rust HTTP sync server with bearer authentication, idempotent operation receipts, conservative merges and conflict branches.
+- Fixed sync retries for legacy revisions and receipts whose JSON omits timestamps. Immutable-content checks compare decoded values rather than JSON formatting.
+- Added locked Rust and npm workspace checks plus Linux and macOS artefact jobs in GitHub Actions.
+
 ## 0.1.0
 
 - Added an interactive design reference with macOS, Windows, Omarchy, iPhone and Android mockups, plus open iPhone Fold, Android fold and Surface Duo frames with the library and note side by side.
@@ -16,4 +26,3 @@
 - Added independent note branches, ancestry graphs, fork-point comparisons, renaming, archive/restore and protected deletion to desktop and mobile previews and the component showcase.
 - Kept the current editor mounted during branch inspection so returning to the same draft preserves undo history.
 - Added clickable light-and-dark mockup thumbnails and a complete platform gallery to the README.
-- Kept storage, authentication, native shells and sync outside this design-system release.

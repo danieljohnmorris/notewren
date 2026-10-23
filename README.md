@@ -4,15 +4,23 @@
 
 # NoteWren
 
-An open-source, local-first Markdown notes app with optional self-hosted sync.
+Free, open-source, local-first Markdown notes with branching and optional self-hosted sync.
 
-NoteWren is being built for macOS, Windows and Omarchy, with iOS and Android clients planned. The aim is one portable notes library, offline writing and a sync server you can run yourself.
+NoteWren is being built around five ideas:
+
+- **Free and open source.** MIT-licensed, so you can use, inspect and customise it.
+- **Local-first writing.** Keep writing offline, with notes stored on your device.
+- **Note branching.** Explore another version while keeping the original.
+- **Your data, your sync server.** Keep your library local or sync through a server you control. Hosting may have its own costs.
+- **One library across your devices.** Each device keeps a local database; sync exchanges changes so your notes and branches travel with you.
+
+macOS, Windows and Omarchy are the initial desktop targets, with iOS and Android clients planned.
 
 ## Development status
 
-The repository currently contains the interactive interface, Markdown editor and visual assets. The native Tauri app, persistent local storage and sync server are not implemented yet. There is no installable app release.
+The repository contains the interactive web reference and a native macOS Tauri app backed by a Rust SQLite core. The local sync server is available for self-hosted development. There is no signed installable release.
 
-[Mockups](#mockups) · [Branches](#branches) · [Quick start](#run-locally) · [Planned sync](#planned-sync) · [Contributing](#contributing) · [Licence](#licence)
+[Mockups](#mockups) · [Branches](#branches) · [Quick start](#run-locally) · [Local sync server](#local-sync-server) · [Contributing](#contributing) · [Licence](#licence)
 
 ## Mockups
 
@@ -52,21 +60,39 @@ The graph replaces the desktop editor and fills the note pane on mobile. It foll
 
 </details>
 
-The current reference models branches of individual notes in memory. Try the seeded branches in the first sample note or the live example under Components. Changes reset when the preview is unmounted or the page reloads. Agent-labelled branches are sample content; they do not run an agent. Notebook-wide branching and isolated agent work through the CLI or MCP interface are planned, alongside persistent local storage.
+The web reference models branches of individual notes in memory. The native app persists notes, revisions and branches locally. Try the seeded branches in the first sample note or the live example under Components to see the reference behaviour. Agent-labelled reference branches are sample content; they do not run an agent. Notebook-wide branching and isolated agent work through the CLI or MCP interface remain planned.
 
-## Planned sync
+## Local sync server
 
-Proposed architecture. Local storage and the sync service are not implemented yet.
+The repository now includes a local-first Rust core, a SQLite-backed sync library and a self-hosted HTTP sync server. The server keeps library data on disk and authenticates its administrative provisioning endpoint and per-library pull/push endpoints with bearer tokens. It listens on `127.0.0.1:8787` by default.
 
-![Planned NoteWren sync: desktop, laptop, tablet and phone grouped as your devices, each with an offline library. CLI and MCP access the same local library. An optional self-hosted server exchanges changes and preserves revisions.](docs/images/planned-sync.svg)
+Run the server with an administrator token:
 
-The sync protocol, authentication and server implementation remain to be chosen.
+```sh
+export NOTEWREN_SERVER_ADMIN_TOKEN='replace-with-a-long-random-token'
+cargo run --locked -p notewren-server
+```
 
-### Deploying your own server
+The server stores data in `./notewren-server-data`. Set `NOTEWREN_SERVER_BIND`, `NOTEWREN_SERVER_DATA_DIR` and `NOTEWREN_SERVER_MAX_BODY_BYTES`, or use the matching command-line options. Library tokens must be 32–512 printable ASCII bytes and are stored as hashes.
 
-One-click deployment is planned. Candidates include Vercel or Netlify for the sync API with Neon providing Postgres storage, subject to the chosen sync protocol and hosting limits. A Docker deployment is also intended for a VPS or home server. No hosting provider or database has been selected yet.
+The HTTP API provisions a library at `POST /v1/libraries`, then synchronises it with `POST /v1/sync/pull` and `POST /v1/sync/push`. The server tests exercise provisioning, authentication, idempotent pushes, pulls and two-client convergence.
 
-The setup flow should provision storage, configure authentication and return a server URL to connect your devices. Credentials belong in the host's secret settings, never in a deploy-button URL. Deployment buttons and templates will be added when the backend can be deployed and checked end to end; none are available yet.
+Provision a library, keeping the returned library token private:
+
+```sh
+export NOTEWREN_SERVER_ADMIN_TOKEN='replace-with-a-long-random-token'
+export NOTEWREN_LIBRARY_TOKEN='another-long-random-token-at-least-32-bytes'
+curl -sS -X POST http://127.0.0.1:8787/v1/libraries \
+  -H "Authorization: Bearer $NOTEWREN_SERVER_ADMIN_TOKEN" \
+  -H 'Content-Type: application/json' \
+  -d "{\"library_id\":\"$(uuidgen | tr '[:upper:]' '[:lower:]')\",\"token\":\"$NOTEWREN_LIBRARY_TOKEN\"}"
+```
+
+The response contains `library_id`. Configure that ID, the server URL and the library token in each native app instance under Settings, then use Sync. Each instance has its own `NOTEWREN_DATA_DIR` when you are testing two clients on one Mac. Pull and push requests use the library bearer token.
+
+Concurrent edits use a conservative three-way merge. Clean disjoint edits are combined. Overlapping edits are preserved as separate branches with their ancestry and receipts retained.
+
+The hosted deployment and CLI/MCP interfaces remain outside this build.
 
 ### Planned agent access
 
@@ -87,11 +113,13 @@ The reference has four sections:
 
 The mockups support searching sample notes, notebook and favourite filters, creating drafts, editing titles and Markdown text, and desktop focus mode. Use Command K or Control K to focus desktop search. Escape leaves focus mode when focus is inside the mockup.
 
-All notes are sample content held in memory. Moving between notes keeps edits within that mockup. Switching platforms, leaving the mockups section or reloading resets them. There is no authentication, disk storage or network synchronisation. The body is a CodeMirror Markdown editor that formats as you type; there is no toolbar. Mobile options adapt the frame around a shared web interface; they are not native iOS or Android builds.
+The web reference uses sample content held in memory. Moving between notes keeps edits within that reference session. Switching platforms, leaving the mockups section or reloading resets them. There is no authentication, disk storage or network synchronisation in the reference. The body is a CodeMirror Markdown editor that formats as you type; there is no toolbar. Mobile options adapt the frame around a shared web interface; they are not native iOS or Android builds.
 
 ## Run locally
 
-Built and exercised with Node 24.9 and npm 10.8.
+Built and exercised with Node 24.9, npm 10.8 and Rust on macOS.
+
+To run the design reference:
 
 ```sh
 npm install --no-audit --no-fund
@@ -100,12 +128,44 @@ npm run dev -- --port 5187 --strictPort
 
 Open `http://127.0.0.1:5187/`.
 
-For the production build and local preview:
+For the native macOS app:
 
 ```sh
-npm run build
-npm run preview -- --port 5188 --strictPort
+npm --workspace apps/desktop run tauri:dev
+npm --workspace apps/desktop run tauri:build
 ```
+
+The native app opens with `Editor`, `Branches` and `History` views. `New branch` starts an explicit branch from the current editor, and inspecting a branch does not switch the writing branch until `Switch to this branch` is chosen. The note-row context menu contains note actions without leaving the editor. The macOS shell uses the webview for its controls and a native overlay title bar with system traffic lights, while the application surface uses compact system typography and neutral macOS-style tones.
+
+For an isolated native smoke run:
+
+```sh
+NOTEWREN_DATA_DIR=/tmp/notewren-native-smoke \
+  target/release/notewren-desktop
+```
+
+The timestamped History view uses persisted revision timestamps where available. Older rows with no stored timestamp are labelled without an invented date.
+
+The bundled app can also be launched with:
+
+```sh
+open target/release/bundle/macos/NoteWren.app
+```
+
+The native app reads the same local library and sync settings as the packaged binary.
+
+For the local sync server, configure the URL, library ID and token in Settings on each native instance. Give each instance a distinct `NOTEWREN_DATA_DIR` when testing two clients on one Mac, then use Sync in both windows.
+
+
+For workspace checks:
+
+```sh
+npm run typecheck
+npm run build
+cargo test --workspace --locked
+```
+
+Set `NOTEWREN_DATA_DIR` to isolate a native smoke run from your normal local library.
 
 The build runs TypeScript checking before Vite. The preview serves `dist/` at `http://127.0.0.1:5188/`.
 
@@ -127,13 +187,13 @@ Brand terracotta is `#D96545`. Light-theme action buttons use the deeper `#A6402
 
 ## Verification
 
-The branch preview was exercised in the production build in Chromium. Checks covered independent title and body edits, nested branches, duplicate-name validation, renaming, archive/restore, protected deletion, confirmation and Escape navigation. A fork-point comparison stayed unchanged after its parent was edited; selecting that parent as the comparison showed its current content. Phone checks covered creating a branch, editing it and switching back. The Components example had no horizontal overflow at 360, 768 and 1440 CSS pixels.
+The design reference has been exercised in Chromium across editing, search, branches, focus mode, mobile layouts, both themes and 360, 768 and 1440 CSS-pixel widths. SVG raster sampling confirmed transparent eye and wing pixels in the cutout versions and opaque wing pixels in the filled versions.
 
-The production build was exercised in Chromium. Browser checks covered desktop note editing and navigation, search and empty results, favourite counts, draft creation, focus mode and keyboard shortcuts, mobile library/editor transitions, component validation and feedback, and both themes. All four sections had no document-level horizontal overflow at 360, 768 and 1440 CSS pixels.
+The Rust workspace has been exercised with `cargo test --workspace --locked`: 37 tests passed across 9 suites. The native macOS app was packaged successfully at `target/release/bundle/macos/NoteWren.app`; interactive native smoke is performed separately with macOS System Events.
 
-SVG raster sampling confirmed transparent eye and wing pixels in the cutout versions and opaque wing pixels in the filled versions. Native macOS, Linux, iOS and Android runtimes have not been exercised.
+The local sync server's HTTP tests cover provisioning, bearer-token rejection, pull, push, idempotent receipts and two-client convergence. A hosted deployment, iOS and Android runtimes, and CLI/MCP access remain unimplemented.
 
-The Impeccable source scan reported advisory typography values in the branch graph and existing platform-chrome colour, radius and typography values. The graph's compact type sizes are documented in `DESIGN.md`. The earlier HTML scan could not run because the installed scanner raised `TypeError: modules.selectAll is not a function`; that check was not treated as a pass.
+The Impeccable source scan reported advisory typography values in the branch graph and existing platform chrome. The earlier HTML scan could not run because the installed scanner raised `TypeError: modules.selectAll is not a function`; that check was not treated as a pass.
 
 ## Contributing
 
@@ -141,10 +201,10 @@ Bug reports, design feedback and contributions are welcome through [GitHub issue
 
 - For bugs, include reproduction steps, browser, viewport, platform preview and a screenshot where relevant.
 - Discuss storage, sync and native-shell changes in an issue before starting implementation.
-- Keep changes focused, follow the existing TypeScript and CSS conventions, and run `npm run build`.
+- Keep changes focused, follow the existing TypeScript, Rust and CSS conventions, and run the workspace checks above.
 - For interface changes, exercise the affected preview in light and dark modes and include screenshots in the pull request.
 
-See [PRODUCT.md](PRODUCT.md) for scope and [DESIGN.md](DESIGN.md) for the interface rules. Native clients and the sync server are planned work, with no release dates committed.
+See [PRODUCT.md](PRODUCT.md) for scope and [DESIGN.md](DESIGN.md) for the interface rules.
 
 ## Licence
 

@@ -3,3 +3,5 @@ dist/
 .DS_Store
 *.local
 .impeccable/review/
+/target/
+/notewren-server-data/

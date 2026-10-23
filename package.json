@@ -3,10 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "workspaces": [
+    "apps/design-reference",
+    "apps/desktop"
+  ],
   "scripts": {
-    "dev": "vite --host 127.0.0.1",
-    "build": "tsc --noEmit && vite build",
-    "preview": "vite preview --host 127.0.0.1"
+    "dev": "npm --workspace apps/design-reference run dev",
+    "build": "npm --workspace apps/design-reference run build",
+    "typecheck": "npm --workspace apps/design-reference run typecheck"
   },
   "dependencies": {
     "@codemirror/commands": "^6.11.1",

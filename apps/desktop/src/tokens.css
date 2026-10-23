@@ -1,0 +1,79 @@
+:root {
+  color-scheme: light;
+  --cream: #f9f2e6;
+  --ink: #171717;
+  --terracotta: #d96545;
+  --moss: #657a64;
+  --blue: #4f6d85;
+  --bg: #f2f2f2;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-sunken: #e7e7e7;
+  --fg: #202020;
+  --muted: #636363;
+  --border: #d4d4d4;
+  --accent: #0069d9;
+  --accent-hover: #0058b8;
+  --accent-soft: #e0ecfa;
+  --on-accent: #ffffff;
+  --success: #456343;
+  --success-soft: #e9efe5;
+  --warning: #80530e;
+  --warning-soft: #f8edcf;
+  --error: #a33435;
+  --error-soft: #fbe8e5;
+  --focus: #007aff;
+  --selection: #b4d7ff;
+  --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-prose: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-code: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.75rem;
+  --text-display: clamp(2rem, 3.5vw, 3.25rem);
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --shadow-window: 0 16px 48px -20px #30271938, 0 3px 8px -4px #30271920;
+  --duration-fast: 140ms;
+  --duration-normal: 220ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #252525;
+  --surface: #1e1e1e;
+  --surface-raised: #333333;
+  --surface-sunken: #363636;
+  --fg: #eeeeee;
+  --muted: #aaaaaa;
+  --border: #414141;
+  --accent: #65acff;
+  --accent-hover: #91c4ff;
+  --accent-soft: #253d58;
+  --on-accent: #102034;
+  --success: #b2cba2;
+  --success-soft: #2d3a27;
+  --warning: #e5c27e;
+  --warning-soft: #413721;
+  --error: #f5aba4;
+  --error-soft: #4a2d29;
+  --focus: #65acff;
+  --selection: #315b87;
+  --shadow-window: 0 16px 48px -20px #0009, 0 3px 8px -4px #0008;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --duration-fast: 0ms; --duration-normal: 0ms; }
+}

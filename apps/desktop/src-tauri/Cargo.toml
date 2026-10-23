@@ -1,0 +1,20 @@
+[package]
+name = "notewren-desktop"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[features]
+custom-protocol = ["tauri/custom-protocol"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+notewren-core = { path = "../../../crates/core" }
+notewren-sync = { path = "../../../crates/sync" }
+serde.workspace = true
+serde_json.workspace = true
+uuid.workspace = true
+tokio = { workspace = true, features = ["sync"] }
