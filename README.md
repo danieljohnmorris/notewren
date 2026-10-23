@@ -1,8 +1,88 @@
+<p align="center">
+  <img src="public/brand/app-icon-cream.svg" alt="NoteWren wren logo with an exclamation-mark tail" width="112" height="112">
+</p>
+
 # NoteWren
 
 A design system and interactive mockups for a cross-platform Markdown notes app.
 
 NoteWren is planned as an open-source, local-first app built with Tauri 2 and Rust, with an optional self-hosted sync server. This repository currently contains the React interface reference, SVG identity assets and platform mockups. It does not contain the native app or a sync server.
+
+**Status:** design reference. There is no installable native app or running sync service yet.
+
+[Mockups](#mockups) · [Quick start](#run-locally) · [Planned sync](#planned-sync) · [Contributing](#contributing) · [Licence](#licence)
+
+## Mockups
+
+Screenshots of the interactive web reference. Window controls and device frames are illustrative, not native builds. The Apple fold layout is a concept, not a hardware specification.
+
+### Desktop
+
+**macOS**
+
+![macOS dark-mode mockup with a library, note list and Markdown editor](docs/images/macos-dark.png)
+
+<details>
+<summary>Windows 11 and Omarchy</summary>
+
+**Windows 11**
+
+![Windows dark-mode mockup with right-aligned window controls](docs/images/windows-dark.png)
+
+**Omarchy**
+
+![Omarchy mockup using the Tokyo Night palette](docs/images/omarchy.png)
+
+</details>
+
+### iOS and Android
+
+**iPhone**
+
+![iPhone library and editor mockups in dark mode](docs/images/iphone.png)
+
+<details>
+<summary>Android and folding devices</summary>
+
+**Android**
+
+![Android library and editor mockups in dark mode](docs/images/android.png)
+
+**Apple fold concept**
+
+![Apple fold concept with the library and note side by side](docs/images/apple-fold.png)
+
+**Android fold**
+
+![Android fold mockup with a continuous inner display](docs/images/android-fold.png)
+
+**Surface Duo**
+
+![Surface Duo mockup with library and editor separated by the physical hinge](docs/images/surface-duo.png)
+
+</details>
+
+## Planned sync
+
+The intended design is local-first: each device keeps its own local store for offline writing. An optional self-hosted document server exchanges changes between devices. This is the proposed architecture; storage, transport, authentication and conflict handling are not implemented.
+
+```mermaid
+flowchart TB
+    desktop["Desktop client<br/>macOS · Windows · Omarchy"]
+    desktopStore[("Device-local notes")]
+    mobile["Mobile client<br/>iOS · Android · folding layouts"]
+    mobileStore[("Device-local notes")]
+    server["Optional self-hosted<br/>document sync server"]
+    documents[("Synced documents<br/>and revisions")]
+
+    desktop <-->|"Offline reads and writes"| desktopStore
+    mobile <-->|"Offline reads and writes"| mobileStore
+    desktop <-->|"Push local changes · pull remote changes"| server
+    mobile <-->|"Push local changes · pull remote changes"| server
+    server <--> documents
+```
+
+Sync must preserve both versions of conflicting edits. Devices must never share a live SQLite database file. The sync protocol and server implementation remain to be chosen.
 
 ## Preview
 
@@ -59,6 +139,17 @@ The production build was exercised in Chromium. Browser checks covered desktop n
 SVG raster sampling confirmed transparent eye and wing pixels in the cutout versions and opaque wing pixels in the filled versions. Native macOS, Linux, iOS and Android runtimes have not been exercised.
 
 The Impeccable source scanner returned no findings for `src/`. Its HTML scan could not run because the installed scanner raised `TypeError: modules.selectAll is not a function`. That check was not treated as a pass.
+
+## Contributing
+
+Bug reports, design feedback and contributions are welcome through [GitHub issues](https://github.com/danieljohnmorris/notewren/issues) and pull requests.
+
+- For bugs, include reproduction steps, browser, viewport, platform preview and a screenshot where relevant.
+- Discuss storage, sync and native-shell changes in an issue before starting implementation.
+- Keep changes focused, follow the existing TypeScript and CSS conventions, and run `npm run build`.
+- For interface changes, exercise the affected preview in light and dark modes and include screenshots in the pull request.
+
+See [PRODUCT.md](PRODUCT.md) for scope and [DESIGN.md](DESIGN.md) for the interface rules. Native clients and the sync server are planned work, with no release dates committed.
 
 ## Licence
 
