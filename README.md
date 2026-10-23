@@ -4,11 +4,13 @@
 
 # NoteWren
 
-A design system and interactive mockups for a cross-platform Markdown notes app.
+An open-source, local-first Markdown notes app with optional self-hosted sync.
 
-NoteWren is planned as an open-source, local-first app built with Tauri 2 and Rust, with an optional self-hosted sync server. This repository currently contains the React interface reference, SVG identity assets and platform mockups. It does not contain the native app or a sync server.
+NoteWren is being built for macOS, Windows and Omarchy, with iOS and Android clients planned. The aim is one portable notes library, offline writing and a sync server you can run yourself.
 
-**Status:** design reference. There is no installable native app or running sync service yet.
+## Development status
+
+The repository currently contains the interactive interface, Markdown editor and visual assets. The native Tauri app, persistent local storage and sync server are not implemented yet. There is no installable app release.
 
 [Mockups](#mockups) · [Quick start](#run-locally) · [Planned sync](#planned-sync) · [Contributing](#contributing) · [Licence](#licence)
 
