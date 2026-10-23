@@ -66,25 +66,11 @@ Screenshots of the interactive web reference. Window controls and device frames 
 
 ## Planned sync
 
-The intended design is local-first: each device keeps its own local store for offline writing. An optional self-hosted document server exchanges changes between devices. This is the proposed architecture; storage, transport, authentication and conflict handling are not implemented.
+Proposed architecture. Local storage and the sync service are not implemented yet.
 
-```mermaid
-flowchart TB
-    desktop["Desktop client<br/>macOS · Windows · Omarchy"]
-    desktopStore[("Device-local notes")]
-    mobile["Mobile client<br/>iOS · Android · folding layouts"]
-    mobileStore[("Device-local notes")]
-    server["Optional self-hosted<br/>document sync server"]
-    documents[("Synced documents<br/>and revisions")]
+![Planned NoteWren sync: desktop and mobile apps each keep local notes for offline writing and exchange document changes with an optional self-hosted server that preserves revisions.](docs/images/planned-sync.svg)
 
-    desktop <-->|"Offline reads and writes"| desktopStore
-    mobile <-->|"Offline reads and writes"| mobileStore
-    desktop <-->|"Push local changes · pull remote changes"| server
-    mobile <-->|"Push local changes · pull remote changes"| server
-    server <--> documents
-```
-
-Sync must preserve both versions of conflicting edits. Devices must never share a live SQLite database file. The sync protocol and server implementation remain to be chosen.
+The sync protocol, authentication and server implementation remain to be chosen.
 
 ## Preview
 

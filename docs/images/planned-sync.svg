@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="660" viewBox="0 0 1000 660" role="img" aria-labelledby="title desc">
+  <title id="title">NoteWren planned sync architecture</title>
+  <desc id="desc">Desktop and mobile clients each keep their own local notes for offline writing. Both exchange changes with an optional self-hosted document sync server, which stores documents and revisions. This is a proposed design, not an implemented service.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 1 1 L 8 5 L 1 9" fill="none" stroke="#a64028" stroke-width="1.6" stroke-linejoin="round"/></marker>
+  </defs>
+  <rect width="1000" height="660" rx="20" fill="#f9f2e6"/>
+  <g font-family="system-ui, -apple-system, BlinkMacSystemFont, sans-serif">
+    <text x="48" y="54" font-size="15" font-weight="650" letter-spacing="2" fill="#a64028">NOTEWREN / PLANNED SYNC</text>
+    <text x="48" y="102" font-size="32" font-weight="700" letter-spacing="-.7" fill="#171717">Local notes. An optional shared server.</text>
+
+    <g fill="none" stroke="#a64028" stroke-width="2.5" marker-start="url(#arrow)" marker-end="url(#arrow)">
+      <path d="M 416 238 H 514 Q 526 238 526 250 V 291 Q 526 303 538 303 H 632"/>
+      <path d="M 416 460 H 514 Q 526 460 526 448 V 415 Q 526 403 538 403 H 632"/>
+    </g>
+    <g fill="#62645b" font-size="18" text-anchor="middle">
+      <text x="516" y="214">Push / pull</text>
+      <text x="516" y="498">Push / pull</text>
+    </g>
+
+    <rect x="48" y="154" width="360" height="180" rx="12" fill="#fffcf7" stroke="#dedbd3" stroke-width="1.5"/>
+    <g fill="none" stroke="#657a64" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="72" y="180" width="30" height="21" rx="3"/><path d="M 87 201 V 208 M 77 208 H 97"/>
+    </g>
+    <text x="120" y="202" font-size="26" font-weight="650" fill="#171717">Desktop app</text>
+    <text x="72" y="242" font-size="20" fill="#62645b">macOS · Windows · Omarchy</text>
+    <path d="M 72 265 H 384" stroke="#dedbd3"/>
+    <circle cx="80" cy="296" r="5" fill="#657a64"/>
+    <text x="96" y="303" font-size="20" font-weight="550" fill="#403f39">Own local notes · works offline</text>
+
+    <rect x="48" y="370" width="360" height="180" rx="12" fill="#fffcf7" stroke="#dedbd3" stroke-width="1.5"/>
+    <g fill="none" stroke="#657a64" stroke-width="2.3" stroke-linecap="round">
+      <rect x="78" y="394" width="18" height="29" rx="4"/><path d="M 85 418 H 89"/>
+    </g>
+    <text x="120" y="418" font-size="26" font-weight="650" fill="#171717">Mobile app</text>
+    <text x="72" y="458" font-size="20" fill="#62645b">iOS · Android · folding devices</text>
+    <path d="M 72 481 H 384" stroke="#dedbd3"/>
+    <circle cx="80" cy="512" r="5" fill="#657a64"/>
+    <text x="96" y="519" font-size="20" font-weight="550" fill="#403f39">Own local notes · works offline</text>
+
+    <rect x="640" y="244" width="312" height="218" rx="12" fill="#f2e6d7" stroke="#cdbba6" stroke-width="1.5"/>
+    <g fill="none" stroke="#a64028" stroke-width="2.2" stroke-linecap="round">
+      <rect x="664" y="271" width="28" height="12" rx="3"/><rect x="664" y="289" width="28" height="12" rx="3"/><path d="M 684 277 H 685 M 684 295 H 685"/>
+    </g>
+    <text x="710" y="282" font-size="25" font-weight="650" fill="#171717">Sync server</text>
+    <text x="710" y="311" font-size="19" fill="#62645b">Optional · self-hosted</text>
+    <path d="M 664 338 H 928" stroke="#cdbba6"/>
+    <text x="664" y="375" font-size="21" font-weight="600" fill="#403f39">Documents and revisions</text>
+    <text x="664" y="410" font-size="18" fill="#62645b">Keep conflicting versions</text>
+
+    <path d="M 48 588 H 952" stroke="#dedbd3"/>
+    <text x="48" y="623" font-size="19" fill="#62645b">Each device owns its local store. Sync exchanges document changes, not database files.</text>
+  </g>
+</svg>
